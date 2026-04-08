@@ -1,4 +1,5 @@
 export type Juice = {
+  image: string;
   name: string;
   tagline: string;
   composition: string[];
@@ -9,6 +10,7 @@ export type Juice = {
 
 export const juices: Juice[] = [
   {
+    image: "/images/liver-detox-juice.png",
     name: "Liver Detox Juice",
     tagline: "Liver Cleanse Juice",
     composition: [
@@ -24,6 +26,7 @@ export const juices: Juice[] = [
     price: "₹50 (200 ml)"
   },
   {
+    image: "/images/Heart-Health-Juice.png",
     name: "Heart Health Juice",
     tagline: "Heart Booster Juice",
     composition: [
@@ -37,6 +40,7 @@ export const juices: Juice[] = [
     price: "₹50 (200 ml)"
   },
   {
+    image: "/images/Sugar-Control-Juice.png",
     name: "Sugar Control Juice",
     tagline: "Sugar Control Juice",
     composition: [
@@ -52,6 +56,7 @@ export const juices: Juice[] = [
     price: "₹50 (200 ml)"
   },
   {
+    image: "/images/kidney-cleanse-juice.png",
     name: "Kidney Detox Juice",
     tagline: "Kidney Cleanse Juice",
     composition: [
@@ -65,6 +70,7 @@ export const juices: Juice[] = [
     price: "₹50 (200 ml)"
   },
   {
+    image: "/images/weight-loss-juice.png",
     name: "Weight Loss Juice",
     tagline: "Fat Cutter Drink",
     composition: [
@@ -79,6 +85,7 @@ export const juices: Juice[] = [
     price: "₹50 (200 ml)"
   },
   {
+    image: "/images/blood-purifier-juice.png",
     name: "Blood Purifier Juice",
     tagline: "Skin Glow Detox",
     composition: [
@@ -93,6 +100,7 @@ export const juices: Juice[] = [
     price: "₹50 (200 ml)"
   },
   {
+    image: "/images/immunity-booster-juice.png",
     name: "Immunity Booster Juice",
     tagline: "Immunity Shot",
     composition: [

@@ -24,10 +24,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-green-50">
         {/* Navbar */}
         <nav className="bg-green-700 text-white p-4 flex gap-6">
-          <Link href="/" className="hover:text-green-200">Home</Link>
-          <Link href="/menu" className="hover:text-green-200">Menu</Link>
-          <Link href="/subscription" className="hover:text-green-200">Plans</Link>
-          <Link href="/contact" className="hover:text-green-200">Contact</Link>
+          <Link href="/home" className="hover:text-green-200">Home</Link>
+          <Link href="/menu" className="hover:text-green-200">Juice Menu</Link>
+          <Link href="/subscription" className="hover:text-green-200">Subscription Plans</Link>
+          <Link href="/contact" className="hover:text-green-200">Contact Us</Link>
+          <Link href="/about" className="hover:text-green-200">About Us</Link>
+          <Link href="/reviews" className="hover:text-green-200">Customer Reviews</Link>
         </nav>
 
         {/* Page Content */}
