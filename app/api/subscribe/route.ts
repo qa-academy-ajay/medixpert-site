@@ -23,7 +23,7 @@ export async function POST(request: Request) {
 console.log(CLIENT_EMAIL?.slice(0, 40));
 
   const data = await request.json();
-  const { name, phone, plan } = data;
+  const { name, phone, address, message, juices, plan } = data;
 
   try {
     const auth = new google.auth.JWT({
@@ -37,10 +37,10 @@ console.log(CLIENT_EMAIL?.slice(0, 40));
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: SHEET_ID,
-      range: "Sheet1!A:D",
+      range: "Sheet1!A:F",
       valueInputOption: "USER_ENTERED",
       requestBody: {
-        values: [[name, phone, plan, new Date().toLocaleString()]],
+        values: [[name, phone, address, message || "", plan, new Date().toLocaleString()]],
       },
     });
 

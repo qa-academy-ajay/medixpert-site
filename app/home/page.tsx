@@ -1,114 +1,5 @@
-// "use client";
-// import { useState } from "react";
-// import Image from "next/image";
-
-// export default function Home() {
-//   return (
-//     <main className="bg-green-50 min-h-screen flex flex-col items-center justify-center">
-//       <section className="relative w-full h-[500px]">
-//         <Image
-//           src="/banner-herbal.png"
-//           alt="MediXpert Herbal Juice Banner"
-//           width={1920}
-//           height={500}
-//           className="w-full h-full object-cover rounded-lg shadow-lg"
-//           priority
-//         />
-//         <div className="absolute inset-0 flex flex-col items-center justify-center text-center bg-black/40 text-white">
-//           <h1 className="text-5xl font-bold mb-4">MediXpert Herbal Juice</h1>
-//           <p className="text-lg mb-6">Health in Every Sip — Ayurvedic Juice Therapy</p>
-//           <a
-//             href="/menu"
-//             className="bg-yellow-400 text-green-900 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition"
-//           >
-//             Explore Our Juice Menu
-//           </a>
-//         </div>
-//       </section>
-//       {/* Hero Section */}
-//       <section className="text-center py-16 px-6">
-//         <h1 className="text-5xl font-bold text-green-700 mb-4">
-//           🌿 MediXpert Herbal Juice
-//         </h1>
-//         <p className="text-lg text-gray-700 mb-6">
-//           Health in Every Sip — Ayurvedic Juice Therapy for Daily Wellness
-//         </p>
-//         <a
-//           href="/menu"
-//           className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition"
-//         >
-//           Explore Our Juice Menu
-//         </a>
-//       </section>
-
-//       {/* Juice Highlights */}
-//       <section className="w-full max-w-4xl px-6 py-12">
-//         <h2 className="text-3xl font-semibold text-green-700 mb-8 text-center">
-//           🍹 Featured Juices
-//         </h2>
-//         <div className="grid md:grid-cols-2 gap-8">
-//           <div className="border p-6 rounded-lg shadow-sm bg-white">
-//             <h3 className="text-xl font-bold mb-2">🥤 Detox Green</h3>
-//             <p className="text-gray-700 mb-2">
-//               Lauki + Dhaniya + Amla + Aloe Vera + Ginger
-//             </p>
-//             <p className="text-sm text-gray-600 mb-2">
-//               👉 Daily detox, digestion, freshness
-//             </p>
-//             <p className="text-green-600 font-semibold">₹50 (200 ml)</p>
-//           </div>
-
-//           <div className="border p-6 rounded-lg shadow-sm bg-white">
-//             <h3 className="text-xl font-bold mb-2">💧 Kidney Care</h3>
-//             <p className="text-gray-700 mb-2">
-//               Lauki + Dhaniya + Amla + Lemon
-//             </p>
-//             <p className="text-sm text-gray-600 mb-2">
-//               👉 Hydration, kidney support
-//             </p>
-//             <p className="text-green-600 font-semibold">₹50 (200 ml)</p>
-//           </div>
-//         </div>
-//       </section>
-
-//       {/* Testimonials */}
-//       <section className="bg-green-100 w-full py-12 px-6">
-//         <h2 className="text-3xl font-semibold text-green-700 mb-8 text-center">
-//           💬 What Our Customers Say
-//         </h2>
-//         <div className="max-w-3xl mx-auto space-y-6">
-//           <blockquote className="border-l-4 border-green-600 pl-4 italic text-gray-700">
-//             “Detox Green keeps me fresh every morning — it’s my daily ritual!”
-//           </blockquote>
-//           <blockquote className="border-l-4 border-green-600 pl-4 italic text-gray-700">
-//             “Kidney Care juice helped me stay hydrated during summer. Highly recommended.”
-//           </blockquote>
-//         </div>
-//       </section>
-
-//       {/* Contact CTA */}
-//       <section className="text-center py-16 px-6">
-//         <h2 className="text-3xl font-semibold text-green-700 mb-4">
-//           📍 Visit MediXpert Juice Corner
-//         </h2>
-//         <p className="text-gray-700 mb-6">
-//           Motihari, East Champaran, Bihar — Morning Delivery: 5:00 AM – 10:00 AM
-//         </p>
-//         <a
-//           href="/contact"
-//           className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition"
-//         >
-//           Contact Us
-//         </a>
-//       </section>
-      
-
-//     </main>
-//   );
-// }
-
 // app/page.tsx
-// MediXpert Herbal Juice Corner — Homepage
+// MediXpert Herbal Juice — Homepage
 // Next.js App Router + Tailwind CSS
 // Font: Add to app/layout.tsx → import { Playfair_Display, DM_Sans } from "next/font/google"
 
@@ -116,12 +7,16 @@
 
 import { useState } from "react";
 import Link from "next/link";
-
+import Image from "next/image";
+import SubscriptionModal from "../components/SubscriptionModal";
+// import { juices } from "@/lib/data";
 // ─── Juice Data ───────────────────────────────────────────────────────────────
 const juices = [
   {
     id: "liver-detox",
     emoji: "🫀",
+    // add images in public/juices and update paths here
+    image: "/juices/liver-detox.png",
     color: "amber",
     tag: "Liver Cleanse Juice",
     name: "Liver Detox",
@@ -146,6 +41,8 @@ const juices = [
   {
     id: "heart-health",
     emoji: "❤️",
+    // add images in public/juices and update paths here
+    image: "/juices/heart-health.png",
     color: "red",
     tag: "Heart Booster Juice",
     name: "Heart Health",
@@ -169,6 +66,8 @@ const juices = [
   {
     id: "sugar-control",
     emoji: "🌿",
+    // add images in public/juices and update paths here
+    image: "/juices/sugar-control.png",
     color: "green",
     tag: "Sugar Control Juice",
     name: "Sugar Control",
@@ -193,6 +92,8 @@ const juices = [
   {
     id: "kidney-detox",
     emoji: "💧",
+    // add images in public/juices and update paths here
+    image: "/juices/kidney-detox.png",
     color: "sky",
     tag: "Kidney Cleanse Juice",
     name: "Kidney Detox",
@@ -216,6 +117,8 @@ const juices = [
   {
     id: "weight-loss",
     emoji: "🔥",
+    // add images in public/juices and update paths here
+    image: "/juices/weight-loss.png",
     color: "orange",
     tag: "Fat Cutter Drink",
     name: "Weight Loss",
@@ -240,6 +143,8 @@ const juices = [
   {
     id: "blood-purifier",
     emoji: "✨",
+    // add images in public/juices and update paths here
+    image: "/juices/blood-purifier.png",
     color: "purple",
     tag: "Skin Glow Detox",
     name: "Blood Purifier",
@@ -263,6 +168,8 @@ const juices = [
   {
     id: "immunity-booster",
     emoji: "🛡️",
+    // add images in public/juices and update paths here
+    image: "/juices/immunity-booster.png",
     color: "emerald",
     tag: "Immunity Shot",
     name: "Immunity Booster",
@@ -287,8 +194,7 @@ const juices = [
 ];
 
 // ─── Juice Card ───────────────────────────────────────────────────────────────
-function JuiceCard({ juice }: { juice: (typeof juices)[0] }) {
-  const [open, setOpen] = useState(false);
+function JuiceCard({ juice, isOpen, onToggle, onSubscribeClick }: { juice: (typeof juices)[0]; isOpen: boolean; onToggle: () => void; onSubscribeClick: (juiceId: string) => void }) {
 
   return (
     <div
@@ -296,11 +202,22 @@ function JuiceCard({ juice }: { juice: (typeof juices)[0] }) {
     >
       {/* Card Header */}
       <div className="p-5">
+       
         <div className="flex items-start justify-between mb-3">
           <span className={`text-xs font-semibold px-3 py-1 rounded-full ${juice.badge}`}>
             {juice.tag}
           </span>
           <span className="text-2xl">{juice.emoji}</span>
+        </div>
+         {/* add juice image here */}
+        <div className="w-full h-48 bg-gray-100 flex items-center justify-center overflow-hidden mb-3">
+          <Image
+            src={juice.image}
+            alt={juice.name}
+            width={300}
+            height={300}
+            className="w-auto h-full object-contain"
+          />
         </div>
         <h3 className="text-xl font-bold text-gray-900 mb-1">{juice.name} Juice</h3>
         <p className="text-sm text-gray-500 italic mb-4">{juice.tagline}</p>
@@ -324,17 +241,18 @@ function JuiceCard({ juice }: { juice: (typeof juices)[0] }) {
             <span className="text-sm text-gray-400 ml-1">{juice.volume}</span>
           </div>
           <button
-            onClick={() => setOpen(!open)}
-            className="text-xs font-medium text-gray-500 hover:text-gray-800 underline underline-offset-2 transition-colors"
+            onClick={onToggle}
+            className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 transition-colors"
           >
-            {open ? "Hide details" : "View composition"}
+            {isOpen ? "▲ Show Less" : "▼ View Details"}
           </button>
         </div>
       </div>
 
       {/* Expandable Details */}
-      {open && (
-        <div className="border-t border-white/60 bg-white/50 p-5 space-y-4">
+      
+      {isOpen && (
+        <div className="border-t border-white/60 bg-white/50 p-7 space-y-4">
           {/* Composition */}
           <div>
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">
@@ -365,8 +283,11 @@ function JuiceCard({ juice }: { juice: (typeof juices)[0] }) {
             </ul>
           </div>
 
-          <button className="w-full bg-gray-900 text-white text-sm font-medium py-2.5 rounded-xl hover:bg-gray-700 transition-colors">
-            Order Now
+          <button
+            onClick={() => onSubscribeClick(juice.id)}
+            className="w-full bg-gray-900 text-white text-sm font-medium py-2.5 rounded-xl hover:bg-gray-700 transition-colors"
+          >
+            Subscribe Now
           </button>
         </div>
       )}
@@ -376,34 +297,77 @@ function JuiceCard({ juice }: { juice: (typeof juices)[0] }) {
 
 // ─── Homepage ─────────────────────────────────────────────────────────────────
 export default function HomePage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [openJuiceId, setOpenJuiceId] = useState<string | null>(null);
+  const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
+  const [selectedJuiceForSubscription, setSelectedJuiceForSubscription] =
+    useState<string | undefined>(undefined);
+
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "#juices", label: "Juices" },
+    { href: "/plans", label: "Plans" },
+    { href: "/about", label: "About" },
+    { href: "/contact", label: "Contact" },
+  ];
+
   return (
     <main className="min-h-screen bg-[#fafaf7] font-sans">
-
       {/* ── Navbar ── */}
-      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-gray-100 px-6 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">🌿</span>
-            <div>
-              <p className="text-sm font-bold text-gray-900 leading-none">MediXpert</p>
-              <p className="text-[10px] text-gray-400 leading-none">Herbal Juice Corner</p>
+      <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2 font-bold text-emerald-700 text-lg">
+            <span>🌿</span>
+            <span>MediXpert</span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-gray-600 hover:text-emerald-700 transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden text-2xl text-gray-600 hover:text-emerald-700"
+          >
+            {mobileMenuOpen ? "✕" : "☰"}
+          </button>
+        </div>
+
+        {/* Mobile Sidebar */}
+        {mobileMenuOpen && (
+          <div className="fixed inset-0 bg-black/50 md:hidden" onClick={() => setMobileMenuOpen(false)}>
+            <div className="fixed left-0 top-0 h-screen w-64 bg-white flex flex-col p-6 space-y-6 overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center gap-2 font-bold text-emerald-700 text-lg">
+                <span>🌿</span>
+                <span>MediXpert</span>
+              </div>
+              <div className="flex flex-col space-y-3">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="text-base font-medium text-gray-600 hover:text-emerald-700 transition-colors py-2 px-3 rounded-lg hover:bg-emerald-50"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
-          <div className="hidden md:flex items-center gap-6 text-sm text-gray-500">
-            <Link href="/about" className="hover:text-gray-900 transition-colors">About</Link>
-            <Link href="/juices" className="hover:text-gray-900 transition-colors">Juices</Link>
-            <Link href="/plans" className="hover:text-gray-900 transition-colors">Plans</Link>
-            <Link href="/contact" className="hover:text-gray-900 transition-colors">Contact</Link>
-          </div>
-          <Link
-            href="/plans"
-            className="bg-emerald-600 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors"
-          >
-            Subscribe
-          </Link>
-        </div>
+        )}
       </nav>
-
       {/* ── Hero ── */}
       <section className="relative overflow-hidden bg-emerald-900 text-white px-6 py-24 text-center">
         {/* Decorative circles */}
@@ -473,7 +437,16 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {juices.map((juice) => (
-            <JuiceCard key={juice.id} juice={juice} />
+            <JuiceCard
+              key={juice.id}
+              juice={juice}
+              isOpen={openJuiceId === juice.id}
+              onToggle={() => setOpenJuiceId(openJuiceId === juice.id ? null : juice.id)}
+              onSubscribeClick={(juiceId) => {
+                setSelectedJuiceForSubscription(juiceId);
+                setSubscribeModalOpen(true);
+              }}
+            />
           ))}
         </div>
       </section>
@@ -631,6 +604,15 @@ export default function HomePage() {
         </div>
       </footer>
 
+      {/* Subscription Modal */}
+      <SubscriptionModal
+        isOpen={subscribeModalOpen}
+        onClose={() => {
+          setSubscribeModalOpen(false);
+          setSelectedJuiceForSubscription(undefined);
+        }}
+        selectedJuiceId={selectedJuiceForSubscription}
+      />
     </main>
   );
 }

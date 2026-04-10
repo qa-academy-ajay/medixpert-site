@@ -1,36 +1,24 @@
+// app/layout.tsx
+// ✅ Server Component — no "use client" here
+// ✅ metadata export works correctly
+// ✅ useState moved into <Navbar /> client component
+
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Link from "next/link";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import Navbar from "./navbar"; // Import the Navbar client component
 
 export const metadata: Metadata = {
-  title: 'MediXpert Herbal Juice',
-  description: 'Health in Every Sip — Ayurvedic Juice Therapy',
-}
+  title: "MediXpert Herbal Juice",
+  description: "Health in Every Sip — Ayurvedic Juice Therapy",
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="bg-green-50">
-        {/* Navbar */}
-        <nav className="bg-green-700 text-white p-4 flex gap-6">
-          <Link href="/home" className="hover:text-green-200">Home</Link>
-          <Link href="/menu" className="hover:text-green-200">Juice Menu</Link>
-          <Link href="/subscription" className="hover:text-green-200">Subscription Plans</Link>
-          <Link href="/contact" className="hover:text-green-200">Contact Us</Link>
-          <Link href="/about" className="hover:text-green-200">About Us</Link>
-          <Link href="/reviews" className="hover:text-green-200">Customer Reviews</Link>
-        </nav>
+
+        {/* Navbar (client component — handles drawer state internally) */}
+        <Navbar />
 
         {/* Page Content */}
         <main>{children}</main>
@@ -39,8 +27,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer className="bg-green-700 text-white text-center p-4 mt-12">
           © {new Date().getFullYear()} MediXpert Herbal Juice — Health in Every Sip
         </footer>
+
       </body>
     </html>
-  )
+  );
 }
-
