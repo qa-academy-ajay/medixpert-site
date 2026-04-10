@@ -5,7 +5,8 @@ import { plans, juices } from "@/lib/data";
 
 export default function PlansPage() {
   const [selectedJuice, setSelectedJuice] = useState<string>("");
-  const [selectedPlans, setSelectedPlans] = useState<string[]>([]);
+  const defaultPlan = plans.find((p) => p.popular)?.id || "";
+  const [selectedPlans, setSelectedPlans] = useState<string[]>(defaultPlan ? [defaultPlan] : []);
 
   const togglePlan = (planId: string) => {
     setSelectedPlans((prev) =>
@@ -115,46 +116,50 @@ export default function PlansPage() {
             : "border-dashed border-gray-200 bg-white"
         }`}>
           <h2 className="text-xl font-extrabold text-gray-900 mb-4">Order Summary</h2>
-          {selectedPlans.length > 0 && selectedJuice ? (() => {
-            const juice = juices.find((j) => j.id === selectedJuice)!;
-            const selectedPlansList = plans.filter((p) => selectedPlans.includes(p.id));
-            const totalPrice = selectedPlansList.reduce((sum, p) => sum + p.price, 0);
-            
-            return (
-              <div>
-                <div className="space-y-3 mb-6">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Juice</span>
-                    <span className="font-semibold text-gray-900">{juice.emoji} {juice.name} Juice</span>
-                  </div>
-                  <div className="border-t border-emerald-200 pt-3">
-                    <p className="text-sm font-semibold text-gray-700 mb-2">Selected Plans:</p>
-                    <div className="space-y-2">
-                      {selectedPlansList.map((plan) => (
-                        <div key={plan.id} className="flex justify-between text-sm">
-                          <span className="text-gray-600">{plan.label}</span>
-                          <span className="font-semibold text-gray-900">₹{plan.price} ({plan.days} days)</span>
-                        </div>
-                      ))}
+          {selectedPlans.length > 0 && selectedJuice ? (
+            (() => {
+              const juice = juices.find((j) => j.id === selectedJuice);
+              const selectedPlansList = plans.filter((p) => selectedPlans.includes(p.id));
+              const totalPrice = selectedPlansList.reduce((sum, p) => sum + p.price, 0);
+              
+              if (!juice) return null;
+              
+              return (
+                <div>
+                  <div className="space-y-3 mb-6">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Juice</span>
+                      <span className="font-semibold text-gray-900">{juice.emoji} {juice.name} Juice</span>
+                    </div>
+                    <div className="border-t border-emerald-200 pt-3">
+                      <p className="text-sm font-semibold text-gray-700 mb-2">Selected Plans:</p>
+                      <div className="space-y-2">
+                        {selectedPlansList.map((plan) => (
+                          <div key={plan.id} className="flex justify-between text-sm">
+                            <span className="text-gray-600">{plan.label}</span>
+                            <span className="font-semibold text-gray-900">₹{plan.price} ({plan.days} days)</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="pt-3 border-t border-emerald-200 flex justify-between">
+                      <span className="font-bold text-gray-900">Total</span>
+                      <span className="text-xl font-extrabold text-emerald-700">₹{totalPrice}</span>
                     </div>
                   </div>
-                  <div className="pt-3 border-t border-emerald-200 flex justify-between">
-                    <span className="font-bold text-gray-900">Total</span>
-                    <span className="text-xl font-extrabold text-emerald-700">₹{totalPrice}</span>
-                  </div>
+                  <button
+                    onClick={handleOrder}
+                    className="w-full bg-emerald-600 text-white font-bold py-3.5 rounded-xl hover:bg-emerald-700 transition-colors text-sm"
+                  >
+                    Order via WhatsApp →
+                  </button>
+                  <p className="text-xs text-gray-400 text-center mt-3">
+                    We&apos;ll confirm your order on WhatsApp within minutes.
+                  </p>
                 </div>
-                <button
-                  onClick={handleOrder}
-                  className="w-full bg-emerald-600 text-white font-bold py-3.5 rounded-xl hover:bg-emerald-700 transition-colors text-sm"
-                >
-                  Order via WhatsApp →
-                </button>
-                <p className="text-xs text-gray-400 text-center mt-3">
-                  We&apos;ll confirm your order on WhatsApp within minutes.
-                </p>
-              </div>
-            );
-          })() : (
+              );
+            })()
+          ) : (
             <p className="text-gray-400 text-sm text-center py-4">
               Select plans and juice above to see your order summary.
             </p>
