@@ -10,7 +10,7 @@ const values = [
 const differentiators = [
   { tag: "Formulations", title: "7 expert-crafted variants", desc: "Heart Booster, Sugar Control, Liver Cleanse & more — each scientifically balanced for your specific health goal." },
   { tag: "Plans", title: "Flexible subscriptions", desc: "7-day, 15-day & 30-day plans to suit every wellness journey and every budget." },
-  { tag: "Roots", title: "Local & authentic", desc: "Proudly made in Bihar, India with a vision to bring Ayurvedic healing digitally to everyone." },
+  { tag: "Roots", title: "Local & authentic", desc: "Proudly made in Gurgaon, India with a vision to bring Ayurvedic healing digitally to everyone." },
   { tag: "Price", title: "Affordable for all", desc: "Quality Ayurvedic therapy that doesn't break the bank — just ₹50 per glass." },
 ];
 
@@ -20,7 +20,7 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="bg-emerald-50 border-b border-emerald-100 px-6 py-20 text-center">
         <span className="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-4 py-1.5 rounded-full mb-5 tracking-wide">
-          Est. Bihar, India
+          Est. Gurgaon, India
         </span>
         <h1 className="text-4xl md:text-5xl font-extrabold text-emerald-900 max-w-2xl mx-auto mb-5 leading-tight">
           Empowering Wellness Through Ayurveda
@@ -49,7 +49,7 @@ export default function AboutPage() {
               &quot;At MediXpert, we believe health begins with nature. Inspired by centuries-old Ayurvedic practices, we craft herbal juices that support immunity, detoxification, and overall vitality — all while being affordable and accessible to everyone.&quot;
             </blockquote>
             <p className="text-gray-600 leading-relaxed text-sm">
-              Rooted in the heartland of Bihar, India, MediXpert was founded with a simple passion: to make authentic Ayurvedic therapy available to every household — not just a privileged few.
+              Rooted in the heartland of Gurgaon, India, MediXpert was founded with a simple passion: to make authentic Ayurvedic therapy available to every household — not just a privileged few.
             </p>
           </div>
           <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-emerald-100 flex items-center justify-center border border-emerald-200">

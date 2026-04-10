@@ -26,17 +26,17 @@ export default function Navbar() {
         }`}
       >
         {/* Drawer Header */}
-        <div className="flex items-center justify-between px-5 py-5 bg-emerald-900">
+        <div className="flex items-center justify-between px-5 py-5 bg-slate-800">
           <Link href="/" onClick={() => setDrawerOpen(false)} className="flex items-center gap-2">
             <span className="text-2xl">🌿</span>
             <div>
               <p className="text-sm font-bold text-white leading-none">MediXpert</p>
-              <p className="text-[10px] text-emerald-300 leading-none mt-0.5">Herbal Juice Corner</p>
+              <p className="text-[10px] text-yellow-300 leading-none mt-0.5">Herbal Juice Corner</p>
             </div>
           </Link>
           <button
             onClick={() => setDrawerOpen(false)}
-            className="text-emerald-200 hover:text-white p-1.5 rounded-lg transition-colors"
+            className="text-yellow-200 hover:text-white p-1.5 rounded-lg transition-colors"
             aria-label="Close menu"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -54,8 +54,8 @@ export default function Navbar() {
               onClick={() => setDrawerOpen(false)}
               className={`flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                 pathname === link.href
-                  ? "bg-emerald-50 text-emerald-800 font-semibold"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  ? "bg-slate-100 text-slate-900 font-semibold"
+                  : "text-stone-600 hover:bg-stone-100 hover:text-slate-900"
               }`}
             >
               {link.label}
@@ -66,32 +66,25 @@ export default function Navbar() {
         {/* Drawer CTA */}
         <div className="px-5 pb-8 space-y-2">
           <Link
-            href="/contact"
-            onClick={() => setDrawerOpen(false)}
-            className="block text-center bg-emerald-600 text-white text-sm font-semibold px-4 py-3 rounded-xl hover:bg-emerald-700 transition-colors"
-          >
-            Subscribe Now
-          </Link>
-          <Link
             href="/plans"
             onClick={() => setDrawerOpen(false)}
-            className="block text-center border border-emerald-200 text-emerald-700 text-sm font-medium px-4 py-2.5 rounded-xl hover:bg-emerald-50 transition-colors"
+            className="block text-center bg-yellow-500 text-slate-900 text-sm font-semibold px-4 py-3 rounded-lg hover:bg-yellow-400 transition-all"
           >
-            View Plans
+            Order Now
           </Link>
-          <p className="text-center text-xs text-gray-400 pt-1">Starting ₹350 · Bihar, India</p>
+          <p className="text-center text-xs text-stone-500 pt-2">Starting ₹350 · Gurgaon, India</p>
         </div>
       </aside>
 
       {/* Top Navbar */}
-      <nav className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm border-b border-gray-100 px-6 py-3.5">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
+      <nav className="sticky top-0 z-30 bg-white/98 backdrop-blur-sm border-b border-stone-200 px-6 py-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
             <span className="text-xl">🌿</span>
             <div>
-              <p className="text-sm font-bold text-gray-900 leading-none group-hover:text-emerald-700 transition-colors">MediXpert</p>
-              <p className="text-[10px] text-gray-400 leading-none mt-0.5">Herbal Juice Corner</p>
+              <p className="font-serif text-sm font-bold text-slate-900 leading-none group-hover:text-yellow-600 transition-colors">MediXpert</p>
+              <p className="text-[10px] text-stone-500 leading-none mt-0.5 font-light">Herbal Juice Corner</p>
             </div>
           </Link>
 
@@ -101,10 +94,10 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-4 py-2 rounded-lg text-sm transition-colors ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   pathname === link.href
-                    ? "bg-emerald-50 text-emerald-700 font-semibold"
-                    : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                    ? "bg-stone-100 text-slate-900 font-semibold"
+                    : "text-stone-600 hover:text-slate-900 hover:bg-stone-50"
                 }`}
               >
                 {link.label}
@@ -115,14 +108,14 @@ export default function Navbar() {
           {/* Desktop CTA + Mobile Hamburger */}
           <div className="flex items-center gap-2">
             <Link
-              href="/contact"
-              className="hidden md:inline-block bg-emerald-600 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors"
+              href="/plans"
+              className="hidden md:inline-block bg-yellow-500 text-slate-900 text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-yellow-400 transition-all duration-200 shadow-sm"
             >
-              Subscribe Now
+              Order Now
             </Link>
             <button
               onClick={() => setDrawerOpen(true)}
-              className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
+              className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-stone-100 transition-colors"
               aria-label="Open menu"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

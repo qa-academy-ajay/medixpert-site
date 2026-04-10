@@ -3,6 +3,7 @@
 export const juices = [
   {
     id: "liver-detox",
+    category: "liver",
     emoji: "🫀",
     // add images in public/juices and update paths here
     image: "/juices/liver-detox.png",
@@ -29,6 +30,7 @@ export const juices = [
   },
   {
     id: "heart-health",
+    category: "heart",
     emoji: "❤️",
     image: "/juices/heart-health.png",
     tag: "Heart Booster Juice",
@@ -52,6 +54,7 @@ export const juices = [
   },
   {
     id: "sugar-control",
+    category: "sugar",
     emoji: "🌿",
     image: "/juices/sugar-control.png",
     tag: "Sugar Control Juice",
@@ -77,6 +80,7 @@ export const juices = [
   },
   {
     id: "kidney-detox",
+    category: "kidney",
     emoji: "💧",
     image: "/juices/kidney-detox.png",
     tag: "Kidney Cleanse Juice",
@@ -100,6 +104,7 @@ export const juices = [
   },
   {
     id: "weight-loss",
+    category: "weight",
     emoji: "🔥",
     image: "/juices/weight-loss.png",
     tag: "Fat Cutter Drink",
@@ -124,6 +129,7 @@ export const juices = [
   },
   {
     id: "blood-purifier",
+    category: "skin",
     emoji: "✨",
     image: "/juices/blood-purifier.png",
     tag: "Skin Glow Detox",
@@ -148,6 +154,7 @@ export const juices = [
   },
   {
     id: "immunity-booster",
+    category: "immunity",
     emoji: "🛡️",
     image: "/juices/immunity-booster.png",
     tag: "Immunity Shot",
@@ -204,6 +211,52 @@ export const plans = [
     features: ["1 juice per day", "Fresh preparation", "Usage guidance included", "WhatsApp support", "Progress check-in", "Free consultation"],
     popular: false,
   },
+];
+
+export const testimonials = [
+  {
+    id: "priya-sharma",
+    name: "Priya Sharma",
+    role: "Marketing Manager, Gurgaon",
+    text: "My blood sugar levels improved in 15 days. The freshness and purity are unmatched. This is the wellness investment every working professional should make.",
+    result: "Blood sugar levels stable",
+    juiceUsed: "Sugar Control",
+  },
+  {
+    id: "rahul-verma",
+    name: "Rahul Verma",
+    role: "Startup Founder, Delhi",
+    text: "Replaced my expensive energy drinks with MediXpert. More focused, better digestion, zero guilt. The Immunity Booster is my go-to before important meetings.",
+    result: "Enhanced energy & focus",
+    juiceUsed: "Immunity Booster",
+  },
+  {
+    id: "anjali-patel",
+    name: "Anjali Patel",
+    role: "Fitness Enthusiast, Gurgaon",
+    text: "Lost 3 kg in a month without feeling deprived. The juices taste fresh and natural. My skin has also gotten clearer since I started the Weight Loss plan.",
+    result: "3 kg weight loss",
+    juiceUsed: "Weight Loss",
+  },
+  {
+    id: "vikram-singh",
+    name: "Vikram Singh",
+    role: "Corporate Executive, NCR",
+    text: "My cholesterol dropped from 220 to 185 in 6 weeks. The Heart Health juice is my daily ritual. Worth every rupee.",
+    result: "Cholesterol reduced by 35 points",
+    juiceUsed: "Heart Health",
+  },
+];
+
+export const juiceCategories = [
+  { id: "all", label: "All Juices", icon: "🎯" },
+  { id: "liver", label: "Liver Support", icon: "🫀" },
+  { id: "heart", label: "Heart Health", icon: "❤️" },
+  { id: "sugar", label: "Blood Sugar", icon: "🌿" },
+  { id: "kidney", label: "Kidney Health", icon: "💧" },
+  { id: "weight", label: "Weight Loss", icon: "🔥" },
+  { id: "skin", label: "Skin & Glow", icon: "✨" },
+  { id: "immunity", label: "Immunity", icon: "🛡️" },
 ];
 
 export const navLinks = [
