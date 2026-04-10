@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { juices, plans } from "@/lib/data";
+import { juices, plans, testimonials } from "@/lib/data";
 import SubscriptionModal from "./components/SubscriptionModal";
 
 function JuiceCard({ juice, isOpen, onToggle, onSubscribeClick }: { juice: (typeof juices)[0]; isOpen: boolean; onToggle: () => void; onSubscribeClick: () => void }) {
@@ -82,25 +82,25 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-emerald-900 text-white px-6 py-24 text-center">
-        <div className="absolute top-[-80px] left-[-80px] w-72 h-72 bg-emerald-700 rounded-full opacity-20 pointer-events-none" />
-        <div className="absolute bottom-[-60px] right-[-40px] w-80 h-80 bg-emerald-600 rounded-full opacity-10 pointer-events-none" />
+      <section className="relative overflow-hidden bg-slate-900 text-white px-6 py-32 text-center">
+        <div className="absolute top-[-100px] left-[-100px] w-96 h-96 bg-slate-800 rounded-full opacity-30 pointer-events-none" />
+        <div className="absolute bottom-[-80px] right-[-60px] w-96 h-96 bg-yellow-900/20 rounded-full opacity-20 pointer-events-none" />
         <div className="relative max-w-3xl mx-auto">
-          <span className="inline-block bg-emerald-700/60 text-emerald-200 text-xs font-semibold px-4 py-1.5 rounded-full mb-6 tracking-wide">
-            🌱 Rooted in Ayurveda · Made in Bihar
+          <span className="inline-block bg-yellow-600/30 text-yellow-200 text-xs font-semibold px-4 py-1.5 rounded-full mb-8 tracking-widest">
+            ✓ CERTIFIED · GURGAON
           </span>
-          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-5 tracking-tight">
+          <h1 className="font-serif text-5xl md:text-7xl font-bold leading-tight mb-6 tracking-tight text-stone-50">
             Heal Naturally,<br />
-            <span className="text-emerald-300">One Glass at a Time</span>
+            <span className="text-yellow-400">One Glass at a Time</span>
           </h1>
-          <p className="text-emerald-100 text-lg max-w-xl mx-auto mb-10 leading-relaxed">
-            Seven science-backed Ayurvedic juices for liver, heart, sugar, kidney, weight, skin & immunity. All at just ₹50.
+          <p className="text-stone-300 text-lg max-w-2xl mx-auto mb-12 leading-relaxed font-light">
+            Seven science-backed Ayurvedic juices for liver, heart, sugar, kidney, weight, skin & immunity. Fresh, pure, effective.
           </p>
-          <div className="flex flex-wrap gap-3 justify-center">
-            <Link href="/juices" className="bg-white text-emerald-900 font-bold px-6 py-3 rounded-xl hover:bg-emerald-50 transition-colors">
-              Explore Juices
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link href="/juices" className="bg-yellow-500 text-slate-900 font-semibold px-8 py-3.5 rounded-lg hover:bg-yellow-400 transition-all duration-200 shadow-lg">
+              Start Healing
             </Link>
-            <Link href="/plans" className="border border-white/40 text-white font-medium px-6 py-3 rounded-xl hover:bg-white/10 transition-colors">
+            <Link href="/plans" className="border border-yellow-400/50 text-yellow-200 font-medium px-8 py-3.5 rounded-lg hover:bg-yellow-950/40 transition-colors">
               View Plans
             </Link>
           </div>
@@ -108,8 +108,8 @@ export default function HomePage() {
       </section>
 
       {/* Stats */}
-      <section className="bg-white border-b border-gray-100 px-6 py-7">
-        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <section className="bg-stone-100 border-b border-stone-200 px-6 py-12">
+        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
             { value: "7", label: "Juice Variants" },
             { value: "₹50", label: "Per 200 ml Glass" },
@@ -117,8 +117,8 @@ export default function HomePage() {
             { value: "3 Plans", label: "7 / 15 / 30 Days" },
           ].map((s) => (
             <div key={s.label}>
-              <p className="text-2xl font-extrabold text-emerald-700">{s.value}</p>
-              <p className="text-xs text-gray-400 mt-1">{s.label}</p>
+              <p className="text-3xl font-serif font-bold text-slate-800">{s.value}</p>
+              <p className="text-xs text-stone-600 mt-2 tracking-wide">{s.label}</p>
             </div>
           ))}
         </div>
@@ -127,9 +127,9 @@ export default function HomePage() {
       {/* Juice Cards */}
       <section id="juices" className="px-6 py-20 max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2">Our Menu</p>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3">7 Healing Juices</h2>
-          <p className="text-gray-500 max-w-md mx-auto text-sm leading-relaxed">
+          <p className="text-xs font-semibold text-yellow-600 uppercase tracking-widest mb-3">Our Wellness Menu</p>
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-4">Seven Healing Juices</h2>
+          <p className="text-stone-600 max-w-2xl mx-auto text-base leading-relaxed">
             Each juice is freshly prepared from Ayurvedic herbs. Tap any card to see full composition.
           </p>
         </div>
@@ -144,9 +144,9 @@ export default function HomePage() {
             />
           ))}
         </div>
-        <div className="text-center mt-10">
-        <Link href="/juices" className="inline-block bg-emerald-600 text-white font-semibold px-6 md:px-8 py-3 rounded-xl hover:bg-emerald-700 transition-colors text-sm md:text-base">
-          View All 7 Juices →
+        <div className="text-center mt-12">
+        <Link href="/juices" className="inline-block bg-yellow-500 text-slate-900 font-semibold px-8 py-3.5 rounded-lg hover:bg-yellow-400 transition-all duration-200">
+          Explore All 7 Juices →
         </Link>
         </div>
       </section>
@@ -200,14 +200,43 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Testimonials */}
+      <section className="px-6 py-20 max-w-6xl mx-auto bg-stone-50">
+        <div className="text-center mb-14">
+          <p className="text-xs font-semibold text-yellow-600 uppercase tracking-widest mb-3">Real Results</p>
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-4">Stories from Gurgaon</h2>
+          <p className="text-stone-600 max-w-2xl mx-auto text-base">
+            See how working professionals & fitness enthusiasts are transforming their health, one glass at a time.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {testimonials.map((testimonial) => (
+            <div key={testimonial.id} className="bg-white border border-stone-200 rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h4 className="font-serif text-lg font-bold text-slate-900">{testimonial.name}</h4>
+                  <p className="text-xs text-yellow-600 font-semibold mt-0.5">{testimonial.role}</p>
+                </div>
+                <span className="text-2xl">⭐</span>
+              </div>
+              <p className="text-stone-700 leading-relaxed mb-5 italic">"{testimonial.text}"</p>
+              <div className="border-t border-stone-100 pt-4 flex items-center justify-between">
+                <span className="text-xs font-semibold text-yellow-600 uppercase">{testimonial.result}</span>
+                <span className="text-xs text-stone-500">{testimonial.juiceUsed}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="bg-emerald-50 border-t border-emerald-100 px-6 py-16 text-center">
-        <h2 className="text-3xl font-extrabold text-emerald-900 mb-3">Ready to start healing?</h2>
-        <p className="text-emerald-700 text-sm max-w-sm mx-auto mb-8 leading-relaxed">
-          Join customers across Bihar rediscovering the power of Ayurvedic juice therapy. Starting at just ₹50 a day.
+      <section className="bg-stone-50 border-t border-stone-200 px-6 py-20 text-center">
+        <h2 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-4">Ready to Start Healing?</h2>
+        <p className="text-stone-600 text-base max-w-xl mx-auto mb-10 leading-relaxed">
+          Join professionals across Gurgaon rediscovering authentic Ayurvedic juice therapy. Fresh. Pure. Effective.
         </p>
-        <Link href="/contact" className="inline-block bg-emerald-700 text-white font-bold px-6 md:px-8 py-3 rounded-xl hover:bg-emerald-800 transition-colors text-sm md:text-base">
-          Subscribe Today
+        <Link href="/plans" className="inline-block bg-yellow-500 text-slate-900 font-semibold px-8 py-3.5 rounded-lg hover:bg-yellow-400 transition-all duration-200">
+          Order Now
         </Link>
       </section>
 

@@ -376,7 +376,7 @@ export default function HomePage() {
 
         <div className="relative max-w-3xl mx-auto">
           <span className="inline-block bg-emerald-700/60 text-emerald-200 text-xs font-semibold px-4 py-1.5 rounded-full mb-6 tracking-wide">
-            🌱 Rooted in Ayurveda · Made in Bihar
+            🌱 Rooted in Ayurveda · Made in Gurgaon
           </span>
           <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-6 tracking-tight">
             Heal Naturally,<br />
@@ -579,7 +579,7 @@ export default function HomePage() {
               <p className="text-white font-bold">MediXpert Herbal Juice Corner</p>
             </div>
             <p className="text-sm max-w-xs leading-relaxed">
-              Authentic Ayurvedic juice therapy rooted in Bihar, India. Affordable, pure & effective.
+              Authentic Ayurvedic juice therapy rooted in Gurgaon, India. Affordable, pure & effective.
             </p>
           </div>
           <div className="flex gap-10 text-sm">
@@ -600,7 +600,7 @@ export default function HomePage() {
           </div>
         </div>
         <div className="max-w-5xl mx-auto mt-8 pt-6 border-t border-gray-800 text-xs text-center text-gray-600">
-          © {new Date().getFullYear()} MediXpert Herbal Juice Corner · Bihar, India · All rights reserved.
+          © {new Date().getFullYear()} MediXpert Herbal Juice Corner · Gurgaon, India · All rights reserved.
         </div>
       </footer>
 

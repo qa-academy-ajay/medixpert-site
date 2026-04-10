@@ -174,7 +174,7 @@ export default function PlansPage() {
               { q: "When should I drink the juice?", a: "Every morning on an empty stomach, 30 minutes before breakfast, for best results." },
               { q: "Can I switch juices mid-plan?", a: "Yes, contact us on WhatsApp and we'll adjust your plan accordingly." },
               { q: "Are the juices freshly made?", a: "Yes, all juices are freshly prepared daily with no preservatives or additives." },
-              { q: "Is there home delivery?", a: "Yes, we deliver within our service area in Bihar. Contact us to confirm availability in your area." },
+              { q: "Is there home delivery?", a: "Yes, we deliver within our service area in Gurgaon. Contact us to confirm availability in your area." },
             ].map(({ q, a }) => (
               <div key={q} className="bg-white border border-gray-100 rounded-xl p-5">
                 <p className="font-bold text-gray-900 text-sm mb-1.5">{q}</p>
