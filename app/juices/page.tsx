@@ -96,7 +96,7 @@ export default function JuicesPage() {
                       <span className="text-2xl font-bold text-slate-900">₹{juice.price}</span>
                       <span className="text-xs text-stone-500 ml-2">{juice.volume}</span>
                     </div>
-                    <div className="text-yellow-600 font-semibold text-sm">Explore →</div>
+                    <div className="text-yellow-600 font-semibold text-sm">View Details →</div>
                   </div>
                 </div>
               </Link>

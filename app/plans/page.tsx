@@ -4,26 +4,28 @@ import { useState } from "react";
 import { plans, juices } from "@/lib/data";
 
 export default function PlansPage() {
-  const [selectedJuice, setSelectedJuice] = useState<string>("");
+  const [selectedJuice, setSelectedJuice] = useState<string[]>([]);
   const defaultPlan = plans.find((p) => p.popular)?.id || "";
-  const [selectedPlans, setSelectedPlans] = useState<string[]>(defaultPlan ? [defaultPlan] : []);
+  const [selectedPlans, setSelectedPlans] = useState<string>(defaultPlan ? defaultPlan : "");
 
-  const togglePlan = (planId: string) => {
-    setSelectedPlans((prev) =>
-      prev.includes(planId)
-        ? prev.filter((id) => id !== planId)
-        : [...prev, planId]
+  const toggleJuice = (juiceId: string) => {
+    setSelectedJuice((prev) =>
+      prev.includes(juiceId)
+        ? prev.filter((id) => id !== juiceId)
+        : [...prev, juiceId]
     );
   };
+
+
 
   const handleOrder = () => {
     if (!selectedJuice || selectedPlans.length === 0) return;
     const juice = juices.find((j) => j.id === selectedJuice);
     const selectedPlansList = plans.filter((p) => selectedPlans.includes(p.id));
-    
+
     const planTexts = selectedPlansList.map((p) => `*${p.label} Plan (${p.days} days)* - ₹${p.price}`).join(", ");
     const totalPrice = selectedPlansList.reduce((sum, p) => sum + p.price, 0);
-    
+
     const msg = `Hello MediXpert! I'd like to subscribe to ${planTexts} for *${juice?.name} Juice*. Total: ₹${totalPrice}. Please confirm my order.`;
     window.open(`https://wa.me/91XXXXXXXXXX?text=${encodeURIComponent(msg)}`, "_blank");
   };
@@ -46,16 +48,15 @@ export default function PlansPage() {
           {plans.map((plan) => (
             <div
               key={plan.id}
-              onClick={() => togglePlan(plan.id)}
-              className={`rounded-2xl p-6 border relative cursor-pointer transition-all duration-200 ${
-                selectedPlans.includes(plan.id)
+              onClick={() => setSelectedPlans(plan.id)}
+              className={`rounded-2xl p-6 border relative cursor-pointer transition-all duration-200 ${selectedPlans === plan.id
                   ? "border-emerald-500 bg-emerald-900 text-white shadow-lg scale-[1.02]"
                   : plan.popular
-                  ? "border-emerald-300 bg-emerald-50"
-                  : "border-gray-200 bg-white hover:border-emerald-200 hover:shadow-sm"
-              }`}
+                    ? "border-emerald-300 bg-emerald-50"
+                    : "border-gray-200 bg-white hover:border-emerald-200 hover:shadow-sm"
+                }`}
             >
-              {plan.popular && !selectedPlans.includes(plan.id) && (
+              {plan.popular && selectedPlans !== plan.id && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full">Most Popular</span>
               )}
               {selectedPlans.includes(plan.id) && (
@@ -87,12 +88,13 @@ export default function PlansPage() {
             {juices.map((juice) => (
               <button
                 key={juice.id}
-                onClick={() => setSelectedJuice(juice.id)}
-                className={`text-left rounded-xl border p-4 transition-all duration-200 ${
-                  selectedJuice === juice.id
+                onClick={() => toggleJuice(juice.id)}
+                // onClick={() => togglePlan(plan.id)}
+
+                className={`text-left rounded-xl border p-4 transition-all duration-200 ${selectedJuice.includes(juice.id)
                     ? `${juice.bg} ${juice.border} shadow-sm`
                     : "bg-white border-gray-100 hover:border-gray-200"
-                }`}
+                  }`}
               >
                 <div className="flex items-center gap-3">
                   <span className="text-xl">{juice.emoji}</span>
@@ -100,7 +102,7 @@ export default function PlansPage() {
                     <p className="text-sm font-bold text-gray-900">{juice.name} Juice</p>
                     <p className="text-xs text-gray-400">{juice.bestFor.join(", ")}</p>
                   </div>
-                  {selectedJuice === juice.id && (
+                  {selectedJuice.includes(juice.id) && (
                     <span className={`ml-auto text-sm font-bold ${juice.accent}`}>✓</span>
                   )}
                 </div>
@@ -110,33 +112,32 @@ export default function PlansPage() {
         </div>
 
         {/* Order Summary */}
-        <div className={`rounded-2xl border p-7 transition-all ${
-          selectedPlans.length > 0 && selectedJuice
+        <div className={`rounded-2xl border p-7 transition-all ${selectedPlans.length > 0 && selectedJuice
             ? "border-emerald-200 bg-emerald-50"
             : "border-dashed border-gray-200 bg-white"
-        }`}>
+          }`}>
           <h2 className="text-xl font-extrabold text-gray-900 mb-4">Order Summary</h2>
           {selectedPlans.length > 0 && selectedJuice ? (
             (() => {
-              const juice = juices.find((j) => j.id === selectedJuice);
-              const selectedPlansList = plans.filter((p) => selectedPlans.includes(p.id));
-              const totalPrice = selectedPlansList.reduce((sum, p) => sum + p.price, 0);
-              
-              if (!juice) return null;
-              
+              const plan = plans.find((p) => p.id === selectedPlans);
+              const selectedJuiceList = juices.filter((j) => selectedJuice.includes(j.id));
+              const totalPrice = selectedJuiceList.length * plan!.price;
+
+              if (!plan) return null;
+
               return (
                 <div>
                   <div className="space-y-3 mb-6">
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Juice</span>
-                      <span className="font-semibold text-gray-900">{juice.emoji} {juice.name} Juice</span>
+                      <span className="text-gray-600">Plan</span>
+                      <span className="font-semibold text-gray-900">{plan.label}</span>
                     </div>
                     <div className="border-t border-emerald-200 pt-3">
-                      <p className="text-sm font-semibold text-gray-700 mb-2">Selected Plans:</p>
+                      <p className="text-sm font-semibold text-gray-700 mb-2">Selected Juices:</p>
                       <div className="space-y-2">
-                        {selectedPlansList.map((plan) => (
-                          <div key={plan.id} className="flex justify-between text-sm">
-                            <span className="text-gray-600">{plan.label}</span>
+                        {selectedJuiceList.map((juice) => (
+                          <div key={juice.id} className="flex justify-between text-sm">
+                            <span className="text-gray-600">{juice.name}</span>
                             <span className="font-semibold text-gray-900">₹{plan.price} ({plan.days} days)</span>
                           </div>
                         ))}
@@ -174,7 +175,7 @@ export default function PlansPage() {
               { q: "When should I drink the juice?", a: "Every morning on an empty stomach, 30 minutes before breakfast, for best results." },
               { q: "Can I switch juices mid-plan?", a: "Yes, contact us on WhatsApp and we'll adjust your plan accordingly." },
               { q: "Are the juices freshly made?", a: "Yes, all juices are freshly prepared daily with no preservatives or additives." },
-              { q: "Is there home delivery?", a: "Yes, we deliver within our service area in Gurgaon. Contact us to confirm availability in your area." },
+              { q: "Is there home delivery?", a: "Yes, we deliver within our service area in Bihar. Contact us to confirm availability in your area." },
             ].map(({ q, a }) => (
               <div key={q} className="bg-white border border-gray-100 rounded-xl p-5">
                 <p className="font-bold text-gray-900 text-sm mb-1.5">{q}</p>

@@ -4,10 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navLinks } from "@/lib/data";
+import { useCart } from "@/app/context/CartContext";
 
 export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pathname = usePathname();
+  const { cart } = useCart();
 
   return (
     <>
@@ -61,6 +63,24 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
+          <Link
+            href="/cart"
+            onClick={() => setDrawerOpen(false)}
+            className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+              pathname === "/cart"
+                ? "bg-slate-100 text-slate-900 font-semibold"
+                : "text-stone-600 hover:bg-stone-100 hover:text-slate-900"
+            }`}
+          >
+            <span className="flex items-center gap-2">
+              🛒 Cart
+            </span>
+            {cart.length > 0 && (
+              <span className="bg-red-500 text-white text-xs font-bold px-2.5 py-0.5 rounded-full">
+                {cart.length}
+              </span>
+            )}
+          </Link>
         </nav>
 
         {/* Drawer CTA */}
@@ -107,6 +127,18 @@ export default function Navbar() {
 
           {/* Desktop CTA + Mobile Hamburger */}
           <div className="flex items-center gap-2">
+            <Link
+              href="/cart"
+              className="hidden md:inline-flex items-center gap-2 relative px-4 py-2.5 rounded-lg text-slate-600 hover:bg-stone-100 transition-all text-sm font-medium"
+            >
+              <span>🛒</span>
+              <span>Cart</span>
+              {cart.length > 0 && (
+                <span className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full -translate-y-1 translate-x-1">
+                  {cart.length}
+                </span>
+              )}
+            </Link>
             <Link
               href="/plans"
               className="hidden md:inline-block bg-yellow-500 text-slate-900 text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-yellow-400 transition-all duration-200 shadow-sm"

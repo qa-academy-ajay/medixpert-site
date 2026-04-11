@@ -3,8 +3,23 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { juices, plans, testimonials } from "@/lib/data";
-import SubscriptionModal from "./components/SubscriptionModal";
+import { juices, testimonials } from "@/lib/data";
+import SubscriptionModal from "@/app/components/SubscriptionModal";
+import { useRouter } from 'next/router';
+
+// function OrderButton({ juice }) {
+//   const router = useRouter();
+
+//   return (
+//     <button
+//       onClick={() => router.push('/order/page')}
+//       className={`w-full text-center text-white text-sm font-semibold py-2 rounded-lg transition-colors ${juice.btnBg}`}
+//     >
+//       Order Now
+//     </button>
+//   );
+// }
+
 
 function JuiceCard({ juice, isOpen, onToggle, onSubscribeClick }: { juice: (typeof juices)[0]; isOpen: boolean; onToggle: () => void; onSubscribeClick: () => void }) {
   return (
@@ -19,7 +34,7 @@ function JuiceCard({ juice, isOpen, onToggle, onSubscribeClick }: { juice: (type
           className="w-auto h-full object-contain"
         />
       </div>
-      
+
       <div className="p-5 flex flex-col flex-grow">
         <div className="flex items-start justify-between mb-2">
           <span className={`text-xs font-semibold px-2 py-1 rounded-full ${juice.badge}`}>{juice.tag}</span>
@@ -27,13 +42,15 @@ function JuiceCard({ juice, isOpen, onToggle, onSubscribeClick }: { juice: (type
         </div>
         <h3 className="text-base md:text-lg font-bold text-gray-900 mb-1">{juice.name}</h3>
         <p className={`text-xs md:text-sm italic mb-3 ${juice.accent}`}>{juice.tagline}</p>
-        
+
         <div className="flex flex-wrap gap-1 mb-3">
-          {juice.bestFor.slice(0, 2).map((b) => (
-            <span key={b} className="text-xs bg-white/70 border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">{b}</span>
-          ))}
+          <span className="text-xs font-semibold text-yellow-600 uppercase tracking-wide mb-2">Best For:
+            {juice.bestFor.slice(0, 2).map((b) => (
+              <span key={b} className="text-xs bg-white/70 border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">{b}</span>
+            ))}
+          </span>
         </div>
-        
+
         <div className="flex items-center justify-between mt-auto">
           <div>
             <span className="text-lg md:text-xl font-bold text-gray-900">₹{juice.price}</span>
@@ -44,7 +61,7 @@ function JuiceCard({ juice, isOpen, onToggle, onSubscribeClick }: { juice: (type
           </button>
         </div>
       </div>
-      
+
       {isOpen && (
         <div className="border-t border-white/60 bg-white/50 p-4 md:p-5 space-y-3">
           <div>
@@ -66,6 +83,11 @@ function JuiceCard({ juice, isOpen, onToggle, onSubscribeClick }: { juice: (type
               ))}
             </ul>
           </div>
+          {/* write code to add a button that says "Order Now", when clicked, it should open the order form and pass the juice id to the order form */}
+
+
+
+          {/* //write code to add a button that says "Subscribe Now", when clicked, it should open the subscription form and pass the juice id to the subscription form */}
           <button onClick={onSubscribeClick} className={`w-full text-center text-white text-sm font-semibold py-2 rounded-lg transition-colors ${juice.btnBg}`}>
             Subscribe Now
           </button>
@@ -134,7 +156,7 @@ export default function HomePage() {
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-          {juices.slice(0, 4).map((juice) => (
+          {juices.map((juice) => (
             <JuiceCard
               key={juice.id}
               juice={juice}
@@ -144,12 +166,36 @@ export default function HomePage() {
             />
           ))}
         </div>
-        <div className="text-center mt-12">
+        {/* <div className="text-center mt-12">
         <Link href="/juices" className="inline-block bg-yellow-500 text-slate-900 font-semibold px-8 py-3.5 rounded-lg hover:bg-yellow-400 transition-all duration-200">
           Explore All 7 Juices →
         </Link>
-        </div>
+        </div> */}
       </section>
+      {/* Plans Preview */}
+      {/* <section className="px-6 py-20 max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2">Subscription Plans</p>
+          <h2 className="text-3xl font-extrabold text-gray-900 mb-3">Pick your wellness journey</h2>
+          <p className="text-gray-500 text-sm max-w-sm mx-auto">Fresh daily juice at just ₹50/day.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {plans.map((plan) => (
+            <div key={plan.id} className={`rounded-2xl p-6 border relative ${plan.popular ? "border-emerald-500 bg-emerald-900 text-white" : "border-gray-200 bg-white text-gray-900"}`}>
+              {plan.popular && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-400 text-emerald-900 text-xs font-bold px-3 py-1 rounded-full">Most Popular</span>
+              )}
+              <p className={`text-xs font-bold uppercase tracking-widest mb-1 ${plan.popular ? "text-emerald-300" : "text-gray-400"}`}>{plan.label}</p>
+              <p className="text-4xl font-extrabold mb-1">{plan.days}<span className={`text-base font-medium ml-1 ${plan.popular ? "text-emerald-300" : "text-gray-400"}`}>days</span></p>
+              <p className={`text-2xl font-bold mb-4 ${plan.popular ? "text-emerald-200" : "text-emerald-700"}`}>₹{plan.price}</p>
+              <p className={`text-sm mb-6 leading-relaxed ${plan.popular ? "text-emerald-100" : "text-gray-500"}`}>{plan.desc}</p>
+              <Link href="/plans" className={`block text-center text-sm font-semibold py-2.5 rounded-xl transition-colors ${plan.popular ? "bg-white text-emerald-900 hover:bg-emerald-50" : "bg-emerald-600 text-white hover:bg-emerald-700"}`}>
+                Subscribe — ₹{plan.price}
+              </Link>
+            </div>
+          ))}
+        </div>
+      </section> */}
 
       {/* How It Works */}
       <section className="bg-white border-y border-gray-100 px-6 py-20">
@@ -175,30 +221,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Plans Preview */}
-      <section className="px-6 py-20 max-w-5xl mx-auto">
-        <div className="text-center mb-12">
-          <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2">Subscription Plans</p>
-          <h2 className="text-3xl font-extrabold text-gray-900 mb-3">Pick your wellness journey</h2>
-          <p className="text-gray-500 text-sm max-w-sm mx-auto">Fresh daily juice at just ₹50/day.</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {plans.map((plan) => (
-            <div key={plan.id} className={`rounded-2xl p-6 border relative ${plan.popular ? "border-emerald-500 bg-emerald-900 text-white" : "border-gray-200 bg-white text-gray-900"}`}>
-              {plan.popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-400 text-emerald-900 text-xs font-bold px-3 py-1 rounded-full">Most Popular</span>
-              )}
-              <p className={`text-xs font-bold uppercase tracking-widest mb-1 ${plan.popular ? "text-emerald-300" : "text-gray-400"}`}>{plan.label}</p>
-              <p className="text-4xl font-extrabold mb-1">{plan.days}<span className={`text-base font-medium ml-1 ${plan.popular ? "text-emerald-300" : "text-gray-400"}`}>days</span></p>
-              <p className={`text-2xl font-bold mb-4 ${plan.popular ? "text-emerald-200" : "text-emerald-700"}`}>₹{plan.price}</p>
-              <p className={`text-sm mb-6 leading-relaxed ${plan.popular ? "text-emerald-100" : "text-gray-500"}`}>{plan.desc}</p>
-              <Link href="/plans" className={`block text-center text-sm font-semibold py-2.5 rounded-xl transition-colors ${plan.popular ? "bg-white text-emerald-900 hover:bg-emerald-50" : "bg-emerald-600 text-white hover:bg-emerald-700"}`}>
-                Subscribe — ₹{plan.price}
-              </Link>
-            </div>
-          ))}
-        </div>
-      </section>
+
 
       {/* Testimonials */}
       <section className="px-6 py-20 max-w-6xl mx-auto bg-stone-50">
@@ -236,7 +259,7 @@ export default function HomePage() {
           Join professionals across Gurgaon rediscovering authentic Ayurvedic juice therapy. Fresh. Pure. Effective.
         </p>
         <Link href="/plans" className="inline-block bg-yellow-500 text-slate-900 font-semibold px-8 py-3.5 rounded-lg hover:bg-yellow-400 transition-all duration-200">
-          Order Now
+          Subscribe Now
         </Link>
       </section>
 

@@ -5,13 +5,31 @@ import Link from "next/link";
 import Image from "next/image";
 import { juices } from "@/lib/data";
 import SubscriptionModal from "@/app/components/SubscriptionModal";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useCart } from "@/app/context/CartContext";
 
 export default function JuiceDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const slug = params.slug as string;
   const juice = juices.find((j) => j.id === slug);
   const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
+  const [addedToCart, setAddedToCart] = useState(false);
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    if (juice) {
+      addToCart({
+        id: juice.id,
+        name: juice.name,
+        price: juice.price,
+        image: juice.image,
+        volume: juice.volume,
+      });
+      setAddedToCart(true);
+      setTimeout(() => setAddedToCart(false), 2000);
+    }
+  };
 
   if (!juice) {
     return (
@@ -59,7 +77,7 @@ export default function JuiceDetailPage() {
             </span>
             <h1 className="font-serif text-5xl font-bold text-slate-900 mb-3">{juice.name}</h1>
             <p className={`text-xl italic mb-6 ${juice.accent}`}>{juice.tagline}</p>
-            
+
             <div className="mb-8">
               <p className="text-base text-stone-600 mb-6 leading-relaxed">
                 A premium Ayurvedic juice therapy, freshly prepared with natural herbs and botanical ingredients. Perfect for your wellness journey.
@@ -84,11 +102,18 @@ export default function JuiceDetailPage() {
 
             {/* CTA */}
             <button
-              onClick={() => setSubscribeModalOpen(true)}
+              onClick={handleAddToCart}
               className={`w-full text-white text-lg font-bold py-4 rounded-lg hover:shadow-lg transition-all duration-200 ${juice.btnBg}`}
             >
-              Start Healing Today
+              {addedToCart ? "✓ Added to Cart" : "Add to Cart"}
             </button>
+            <Link 
+              href="/cart"
+              className="block w-full mt-3 text-center text-yellow-600 text-sm font-semibold hover:text-yellow-700 transition-colors"
+            >
+              View Cart →
+            </Link>
+
             <p className="text-xs text-stone-500 text-center mt-4">Free 7-day consultation included</p>
           </div>
         </div>
