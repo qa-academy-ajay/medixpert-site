@@ -261,8 +261,9 @@ export const juiceCategories = [
 
 export const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/juices", label: "Juices" },
+  { href: "/juices", label: "Products" },
   { href: "/plans", label: "Plans" },
+  { href: "/order", label: "Order" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  
 ];

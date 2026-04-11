@@ -5,30 +5,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { juices } from "@/lib/data";
 import SubscriptionModal from "@/app/components/SubscriptionModal";
-import { useParams, useRouter } from "next/navigation";
-import { useCart } from "@/app/context/CartContext";
+import { useParams } from "next/navigation";
 
 export default function JuiceDetailPage() {
   const params = useParams();
-  const router = useRouter();
   const slug = params.slug as string;
   const juice = juices.find((j) => j.id === slug);
   const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
-  const [addedToCart, setAddedToCart] = useState(false);
-  const { addToCart } = useCart();
 
-  const handleAddToCart = () => {
-    if (juice) {
-      addToCart({
-        id: juice.id,
-        name: juice.name,
-        price: juice.price,
-        image: juice.image,
-        volume: juice.volume,
-      });
-      setAddedToCart(true);
-      setTimeout(() => setAddedToCart(false), 2000);
-    }
+  const handleSubscribeClick = () => {
+    setSubscribeModalOpen(true);
   };
 
   if (!juice) {
@@ -102,18 +88,11 @@ export default function JuiceDetailPage() {
 
             {/* CTA */}
             <button
-              onClick={handleAddToCart}
+              onClick={handleSubscribeClick}
               className={`w-full text-white text-lg font-bold py-4 rounded-lg hover:shadow-lg transition-all duration-200 ${juice.btnBg}`}
             >
-              {addedToCart ? "✓ Added to Cart" : "Add to Cart"}
+              Subscribe Now
             </button>
-            <Link 
-              href="/cart"
-              className="block w-full mt-3 text-center text-yellow-600 text-sm font-semibold hover:text-yellow-700 transition-colors"
-            >
-              View Cart →
-            </Link>
-
             <p className="text-xs text-stone-500 text-center mt-4">Free 7-day consultation included</p>
           </div>
         </div>

@@ -20,7 +20,7 @@ export default function PlansPage() {
 
   const handleOrder = () => {
     if (!selectedJuice || selectedPlans.length === 0) return;
-    const juice = juices.find((j) => j.id === selectedJuice);
+    const juice = juices.find((j) => selectedJuice.includes(j.id));
     const selectedPlansList = plans.filter((p) => selectedPlans.includes(p.id));
 
     const planTexts = selectedPlansList.map((p) => `*${p.label} Plan (${p.days} days)* - ₹${p.price}`).join(", ");
