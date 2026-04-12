@@ -52,7 +52,6 @@ export default function PlansPage() {
               <button
                 key={juice.id}
                 onClick={() => toggleJuice(juice.id)}
-                // onClick={() => togglePlan(plan.id)}
 
                 className={`text-left rounded-xl border p-4 transition-all duration-200 ${selectedJuice.includes(juice.id)
                     ? `${juice.bg} ${juice.border} shadow-sm`
