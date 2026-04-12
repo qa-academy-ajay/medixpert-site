@@ -1,34 +1,44 @@
-// app/page.tsx
-// MediXpert Herbal Juice — Homepage
-// Next.js App Router + Tailwind CSS
-// Font: Add to app/layout.tsx → import { Playfair_Display, DM_Sans } from "next/font/google"
-
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import SubscriptionModal from "@/app/components/SubscriptionModal";
-import { juices } from "@/lib/data";
+import SubscriptionCheckoutModal from "@/app/components/SubscriptionCheckoutModal";
+import { juices, testimonials } from "@/lib/data";
 
-
-// ─── Juice Card ───────────────────────────────────────────────────────────────
-function JuiceCard({ juice, isOpen, onToggle, onSubscribeClick }: { juice: (typeof juices)[0]; isOpen: boolean; onToggle: () => void; onSubscribeClick: (juiceId: string) => void }) {
+function JuiceCard({
+  juice,
+  isOpen,
+  onToggle,
+  isSelected,
+  onToggleSelect,
+}: {
+  juice: (typeof juices)[0];
+  isOpen: boolean;
+  onToggle: () => void;
+  isSelected: boolean;
+  onToggleSelect: () => void;
+}) {
 
   return (
     <div
-      className={`rounded-2xl border ${juice.border} ${juice.bg} overflow-hidden transition-all duration-300`}
+      className={`rounded-2xl border ${juice.border} ${juice.bg} overflow-hidden transition-all duration-300 ${isSelected ? "ring-2 ring-emerald-500 shadow-lg" : ""}`}
     >
       {/* Card Header */}
       <div className="p-5">
-       
         <div className="flex items-start justify-between mb-3">
           <span className={`text-xs font-semibold px-3 py-1 rounded-full ${juice.badge}`}>
             {juice.tag}
           </span>
-          <span className="text-2xl">{juice.emoji}</span>
+          <div className="flex items-center gap-2">
+            {isSelected && (
+              <span className="inline-flex items-center justify-center w-6 h-6 bg-emerald-500 text-white rounded-full text-xs font-bold">
+                ✓
+              </span>
+            )}
+            <span className="text-2xl">{juice.emoji}</span>
+          </div>
         </div>
-         {/* add juice image here */}
         <div className="w-full h-48 bg-gray-100 flex items-center justify-center overflow-hidden mb-3">
           <Image
             src={juice.image}
@@ -59,17 +69,28 @@ function JuiceCard({ juice, isOpen, onToggle, onSubscribeClick }: { juice: (type
             <span className="text-2xl font-bold text-gray-900">₹{juice.price}</span>
             <span className="text-sm text-gray-400 ml-1">{juice.volume}</span>
           </div>
-          <button
-            onClick={onToggle}
-            className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 transition-colors"
-          >
-            {isOpen ? "▲ Show Less" : "▼ View Details"}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onToggleSelect}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${isSelected
+                  ? "bg-emerald-500 text-white"
+                  : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                }`}
+            >
+              {isSelected ? "✓ Selected" : "Select"}
+            </button>
+            <button
+              onClick={onToggle}
+              className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 transition-colors"
+            >
+              {isOpen ? "Hide Details" : "Show Details"}
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Expandable Details */}
-      
+
       {isOpen && (
         <div className="border-t border-white/60 bg-white/50 p-7 space-y-4">
           {/* Composition */}
@@ -103,10 +124,13 @@ function JuiceCard({ juice, isOpen, onToggle, onSubscribeClick }: { juice: (type
           </div>
 
           <button
-            onClick={() => onSubscribeClick(juice.id)}
-            className="w-full bg-gray-900 text-white text-sm font-medium py-2.5 rounded-xl hover:bg-gray-700 transition-colors"
+            onClick={onToggleSelect}
+            className={`w-full text-sm font-medium py-2.5 rounded-xl transition-colors ${isSelected
+                ? "bg-emerald-500 text-white hover:bg-emerald-600"
+                : "bg-gray-200 text-gray-900 hover:bg-gray-300"
+              }`}
           >
-            Subscribe Now
+            {isSelected ? "✓ Added to Subscription" : "Add to Subscribe"}
           </button>
         </div>
       )}
@@ -118,8 +142,27 @@ function JuiceCard({ juice, isOpen, onToggle, onSubscribeClick }: { juice: (type
 export default function HomePage() {
   const [openJuiceId, setOpenJuiceId] = useState<string | null>(null);
   const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
-  const [selectedJuiceForSubscription, setSelectedJuiceForSubscription] =
-    useState<string | undefined>(undefined);
+  const [selectedJuicesForSubscription, setSelectedJuicesForSubscription] =
+    useState<string[]>([]);
+
+  const toggleJuiceSelection = (juiceId: string) => {
+    setSelectedJuicesForSubscription((prev) =>
+      prev.includes(juiceId)
+        ? prev.filter((id) => id !== juiceId)
+        : [...prev, juiceId]
+    );
+  };
+
+  const openSubscriptionModal = () => {
+    if (selectedJuicesForSubscription.length > 0) {
+      setSubscribeModalOpen(true);
+    }
+  };
+
+  const closeSubscriptionModal = () => {
+    setSubscribeModalOpen(false);
+    setSelectedJuicesForSubscription([]);
+  };
 
   return (
     <main className="min-h-screen bg-[#fafaf7] font-sans">
@@ -176,7 +219,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Juice Cards ── */}
-      <section id="juices" className="px-6 py-20 max-w-6xl mx-auto">
+      <section id="juices" className={`px-6 py-20 max-w-6xl mx-auto ${selectedJuicesForSubscription.length > 0 ? "pb-32" : ""}`}>
         <div className="text-center mb-12">
           <p className="text-xs font-semibold text-emerald-600 uppercase tracking-widest mb-2">
             Our Menu
@@ -197,13 +240,44 @@ export default function HomePage() {
               juice={juice}
               isOpen={openJuiceId === juice.id}
               onToggle={() => setOpenJuiceId(openJuiceId === juice.id ? null : juice.id)}
-              onSubscribeClick={(juiceId) => {
-                setSelectedJuiceForSubscription(juiceId);
-                setSubscribeModalOpen(true);
-              }}
+              isSelected={selectedJuicesForSubscription.includes(juice.id)}
+              onToggleSelect={() => toggleJuiceSelection(juice.id)}
             />
           ))}
         </div>
+
+        {/* Floating Action Bar */}
+        {selectedJuicesForSubscription.length > 0 && (
+          <div className="fixed bottom-0 left-0 right-0 bg-emerald-900 text-white px-6 py-4 shadow-2xl border-t border-emerald-800">
+            <div className="max-w-6xl mx-auto flex items-center justify-between">
+              <div>
+                <p className="text-sm font-semibold">
+                  {selectedJuicesForSubscription.length} juice{selectedJuicesForSubscription.length !== 1 ? "s" : ""} selected
+                </p>
+                <p className="text-xs text-emerald-300">
+                  {juices
+                    .filter((j) => selectedJuicesForSubscription.includes(j.id))
+                    .map((j) => j.name)
+                    .join(", ")}
+                </p>
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setSelectedJuicesForSubscription([])}
+                  className="px-4 py-2 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-sm font-medium transition-colors"
+                >
+                  Clear
+                </button>
+                <button
+                  onClick={openSubscriptionModal}
+                  className="px-6 py-2 rounded-lg bg-white text-emerald-900 font-semibold hover:bg-emerald-50 transition-colors text-sm"
+                >
+                  Subscribe to All →
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* ── How It Works ── */}
@@ -249,6 +323,79 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Testimonials ── */}
+      <section className="px-6 py-20 bg-emerald-50 border-y border-emerald-100">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-xs font-semibold text-emerald-600 uppercase tracking-widest mb-2">
+              Real Results
+            </p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3">
+              Success Stories from Our Customers
+            </h2>
+            <p className="text-gray-600 max-w-xl mx-auto text-sm leading-relaxed">
+              Join hundreds of people who&apos;ve transformed their health with MediXpert juices.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            {testimonials.map((testimonial) => (
+              <div
+                key={testimonial.id}
+                className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-shadow"
+              >
+                {/* Star Rating */}
+                <div className="flex gap-1 mb-3">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className="text-yellow-400 text-lg">
+                      ⭐
+                    </span>
+                  ))}
+                </div>
+
+                {/* Testimonial Text */}
+                <p className="text-gray-700 text-sm leading-relaxed mb-4 line-clamp-4">
+                  &quot;{testimonial.text}&quot;
+                </p>
+
+                {/* Result Badge */}
+                <div className="mb-4 p-2 bg-emerald-50 rounded-lg border border-emerald-200">
+                  <p className="text-xs font-semibold text-emerald-700">
+                    ✓ {testimonial.result}
+                  </p>
+                </div>
+
+                {/* Divider */}
+                <div className="border-t border-gray-200 pt-4">
+                  {/* Name & Role */}
+                  <p className="font-semibold text-gray-900 text-sm">
+                    {testimonial.name}
+                  </p>
+                  <p className="text-xs text-gray-500 mb-2">
+                    {testimonial.role}
+                  </p>
+
+                  {/* Juice Used */}
+                  <span className="inline-block text-xs bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full font-medium">
+                    Used: {testimonial.juiceUsed}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* View All Reviews Button */}
+          <div className="text-center mt-10">
+            <Link
+              href="/review"
+              className="inline-block text-emerald-600 font-semibold hover:text-emerald-700 text-sm"
+            >
+              View all reviews →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ── Subscription Plans Preview ── */}
       <section className="px-6 py-20 max-w-5xl mx-auto">
         <div className="text-center mb-12">
@@ -270,11 +417,10 @@ export default function HomePage() {
           ].map((plan) => (
             <div
               key={plan.days}
-              className={`rounded-2xl p-6 border ${
-                plan.popular
+              className={`rounded-2xl p-6 border ${plan.popular
                   ? "border-emerald-500 bg-emerald-900 text-white"
                   : "border-gray-200 bg-white text-gray-900"
-              } relative`}
+                } relative`}
             >
               {plan.popular && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-400 text-emerald-900 text-xs font-bold px-3 py-1 rounded-full">
@@ -295,11 +441,10 @@ export default function HomePage() {
               </p>
               <Link
                 href="/plans"
-                className={`block text-center text-sm font-semibold py-2.5 rounded-xl transition-colors ${
-                  plan.popular
+                className={`block text-center text-sm font-semibold py-2.5 rounded-xl transition-colors ${plan.popular
                     ? "bg-white text-emerald-900 hover:bg-emerald-50"
                     : "bg-emerald-600 text-white hover:bg-emerald-700"
-                }`}
+                  }`}
               >
                 Subscribe — ₹{plan.price}
               </Link>
@@ -359,14 +504,11 @@ export default function HomePage() {
         </div>
       </footer>
 
-      {/* Subscription Modal */}
-      <SubscriptionModal
+      {/* Subscription Checkout Flow Modal */}
+      <SubscriptionCheckoutModal
         isOpen={subscribeModalOpen}
-        onClose={() => {
-          setSubscribeModalOpen(false);
-          setSelectedJuiceForSubscription(undefined);
-        }}
-        selectedJuiceId={selectedJuiceForSubscription}
+        onClose={closeSubscriptionModal}
+        selectedJuiceIds={selectedJuicesForSubscription}
       />
     </main>
   );

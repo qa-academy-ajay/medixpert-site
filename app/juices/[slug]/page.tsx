@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { juices } from "@/lib/data";
-import SubscriptionModal from "@/app/components/SubscriptionModal";
+import SubscriptionCheckoutModal from "@/app/components/SubscriptionCheckoutModal";
 import { useParams } from "next/navigation";
 
 export default function JuiceDetailPage() {
@@ -12,10 +12,6 @@ export default function JuiceDetailPage() {
   const slug = params.slug as string;
   const juice = juices.find((j) => j.id === slug);
   const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
-
-  const handleSubscribeClick = () => {
-    setSubscribeModalOpen(true);
-  };
 
   if (!juice) {
     return (
@@ -88,10 +84,10 @@ export default function JuiceDetailPage() {
 
             {/* CTA */}
             <button
-              onClick={handleSubscribeClick}
+              onClick={() => setSubscribeModalOpen(true)}
               className={`w-full text-white text-lg font-bold py-4 rounded-lg hover:shadow-lg transition-all duration-200 ${juice.btnBg}`}
             >
-              Subscribe Now
+            Add To Subscribe
             </button>
             <p className="text-xs text-stone-500 text-center mt-4">Free 7-day consultation included</p>
           </div>
@@ -211,9 +207,10 @@ export default function JuiceDetailPage() {
       </section>
 
       {/* Subscription Modal */}
-      <SubscriptionModal
+      <SubscriptionCheckoutModal
         isOpen={subscribeModalOpen}
         onClose={() => setSubscribeModalOpen(false)}
+        selectedJuiceIds={juice ? [juice.id] : []}
       />
     </div>
   );

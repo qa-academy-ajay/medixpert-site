@@ -1,30 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { juices, plans } from "@/lib/data";
 
 interface SubscriptionModalProps {
   isOpen: boolean;
   onClose: () => void;
   selectedJuiceId?: string;
+  selectedJuiceIds?: string[];
 }
 
 export default function SubscriptionModal({
   isOpen,
   onClose,
   selectedJuiceId,
+  selectedJuiceIds,
 }: SubscriptionModalProps) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [message, setMessage] = useState("");
-  const [selectedJuices, setSelectedJuices] = useState<string[]>(
-    selectedJuiceId ? [selectedJuiceId] : []
-  );
+  const [selectedJuices, setSelectedJuices] = useState<string[]>([]);
   const [plan, setPlan] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+
+  // Update selected juices when modal opens or selection changes
+  useEffect(() => {
+    if (isOpen) {
+      if (selectedJuiceIds && selectedJuiceIds.length > 0) {
+        setSelectedJuices(selectedJuiceIds);
+      } else if (selectedJuiceId) {
+        setSelectedJuices([selectedJuiceId]);
+      } else {
+        setSelectedJuices([]);
+      }
+    }
+  }, [isOpen, selectedJuiceId, selectedJuiceIds]);
 
   const toggleJuice = (juiceId: string) => {
     setSelectedJuices((prev) =>
@@ -92,7 +105,7 @@ export default function SubscriptionModal({
         setPhone("");
         setAddress("");
         setMessage("");
-        setSelectedJuices(selectedJuiceId ? [selectedJuiceId] : []);
+        setSelectedJuices([]);
         setPlan("");
         setSuccess(false);
       }, 2000);

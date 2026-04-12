@@ -43,6 +43,37 @@ export default function PlansPage() {
 
       <div className="max-w-5xl mx-auto px-6 py-14 space-y-16">
 
+        {/* Juice Picker */}
+        <div>
+          <h2 className="text-2xl font-extrabold text-gray-900 mb-2">Choose your juice</h2>
+          <p className="text-sm text-gray-500 mb-6">Select the juice that matches your health goal.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {juices.map((juice) => (
+              <button
+                key={juice.id}
+                onClick={() => toggleJuice(juice.id)}
+                // onClick={() => togglePlan(plan.id)}
+
+                className={`text-left rounded-xl border p-4 transition-all duration-200 ${selectedJuice.includes(juice.id)
+                    ? `${juice.bg} ${juice.border} shadow-sm`
+                    : "bg-white border-gray-100 hover:border-gray-200"
+                  }`}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-xl">{juice.emoji}</span>
+                  <div>
+                    <p className="text-sm font-bold text-gray-900">{juice.name} Juice</p>
+                    <p className="text-xs text-gray-400">{juice.bestFor.join(", ")}</p>
+                  </div>
+                  {selectedJuice.includes(juice.id) && (
+                    <span className={`ml-auto text-sm font-bold ${juice.accent}`}>✓</span>
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Plans Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {plans.map((plan) => (
@@ -78,37 +109,6 @@ export default function PlansPage() {
               </ul>
             </div>
           ))}
-        </div>
-
-        {/* Juice Picker */}
-        <div>
-          <h2 className="text-2xl font-extrabold text-gray-900 mb-2">Choose your juice</h2>
-          <p className="text-sm text-gray-500 mb-6">Select the juice that matches your health goal.</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {juices.map((juice) => (
-              <button
-                key={juice.id}
-                onClick={() => toggleJuice(juice.id)}
-                // onClick={() => togglePlan(plan.id)}
-
-                className={`text-left rounded-xl border p-4 transition-all duration-200 ${selectedJuice.includes(juice.id)
-                    ? `${juice.bg} ${juice.border} shadow-sm`
-                    : "bg-white border-gray-100 hover:border-gray-200"
-                  }`}
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-xl">{juice.emoji}</span>
-                  <div>
-                    <p className="text-sm font-bold text-gray-900">{juice.name} Juice</p>
-                    <p className="text-xs text-gray-400">{juice.bestFor.join(", ")}</p>
-                  </div>
-                  {selectedJuice.includes(juice.id) && (
-                    <span className={`ml-auto text-sm font-bold ${juice.accent}`}>✓</span>
-                  )}
-                </div>
-              </button>
-            ))}
-          </div>
         </div>
 
         {/* Order Summary */}

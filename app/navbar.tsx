@@ -30,7 +30,7 @@ export default function Navbar() {
             <span className="text-2xl">🌿</span>
             <div>
               <p className="text-sm font-bold text-white leading-none">MediXpert</p>
-              <p className="text-[10px] text-yellow-300 leading-none mt-0.5">Herbal Juice Corner</p>
+              <p className="text-[10px] text-yellow-300 leading-none mt-0.5">Herbal Juice</p>
             </div>
           </Link>
           <button
@@ -83,7 +83,7 @@ export default function Navbar() {
             <span className="text-xl">🌿</span>
             <div>
               <p className="font-serif text-sm font-bold text-slate-900 leading-none group-hover:text-yellow-600 transition-colors">MediXpert</p>
-              <p className="text-[10px] text-stone-500 leading-none mt-0.5 font-light">Herbal Juice Corner</p>
+              <p className="text-[10px] text-stone-500 leading-none mt-0.5 font-light">Herbal Juice</p>
             </div>
           </Link>
 
