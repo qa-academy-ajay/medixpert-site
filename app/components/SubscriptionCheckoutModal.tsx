@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import { juices, plans } from "@/lib/data";
 import Image from "next/image";
 
-interface SubscriptionCheckoutModalProps {
+
+type SubscriptionCheckoutModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  selectedJuiceIds?: string[];
-}
+  selectedJuiceIds: string[];
+};
 
 type Step = "plan" | "details" | "review";
 
@@ -163,8 +164,8 @@ export default function SubscriptionCheckoutModal({
               {step === "plan"
                 ? "Select Your Plan"
                 : step === "details"
-                ? "Delivery Details"
-                : "Review Order"}
+                  ? "Delivery Details"
+                  : "Review Order"}
             </h2>
             <p className="text-sm text-gray-500 mt-1">
               Step {step === "plan" ? 1 : step === "details" ? 2 : 3} of 3
@@ -206,11 +207,10 @@ export default function SubscriptionCheckoutModal({
                   <button
                     key={plan.id}
                     onClick={() => setSelectedPlan(plan.id)}
-                    className={`p-4 rounded-lg border-2 transition-all text-left ${
-                      selectedPlan === plan.id
+                    className={`p-4 rounded-lg border-2 transition-all text-left ${selectedPlan === plan.id
                         ? "border-emerald-500 bg-emerald-50"
                         : "border-gray-200 bg-white hover:border-emerald-300"
-                    }`}
+                      }`}
                   >
                     <p className="text-sm font-semibold text-gray-600 mb-2">
                       {plan.label}
@@ -222,7 +222,7 @@ export default function SubscriptionCheckoutModal({
                       ₹{selectedJuices.length * 50 * plan.days}
                     </p>
                     <p className="text-xs text-gray-500">
-                      ₹{50 * plan.days} per juice
+                      ₹{50 * plan.days} per juice for {plan.days} days
                     </p>
                   </button>
                 ))}
@@ -244,9 +244,8 @@ export default function SubscriptionCheckoutModal({
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
-                    errors.name ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${errors.name ? "border-red-500" : "border-gray-300"
+                    }`}
                   placeholder="John Doe"
                 />
                 {errors.name && (
@@ -263,9 +262,8 @@ export default function SubscriptionCheckoutModal({
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
-                      errors.email ? "border-red-500" : "border-gray-300"
-                    }`}
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${errors.email ? "border-red-500" : "border-gray-300"
+                      }`}
                     placeholder="john@example.com"
                   />
                   {errors.email && (
@@ -281,9 +279,8 @@ export default function SubscriptionCheckoutModal({
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
-                      errors.phone ? "border-red-500" : "border-gray-300"
-                    }`}
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${errors.phone ? "border-red-500" : "border-gray-300"
+                      }`}
                     placeholder="9876543210"
                   />
                   {errors.phone && (
@@ -299,9 +296,8 @@ export default function SubscriptionCheckoutModal({
                 <textarea
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
-                    errors.address ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${errors.address ? "border-red-500" : "border-gray-300"
+                    }`}
                   placeholder="123 Main Street"
                   rows={2}
                 />
@@ -319,9 +315,8 @@ export default function SubscriptionCheckoutModal({
                     type="text"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
-                      errors.city ? "border-red-500" : "border-gray-300"
-                    }`}
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${errors.city ? "border-red-500" : "border-gray-300"
+                      }`}
                     placeholder="Mumbai"
                   />
                   {errors.city && (
@@ -337,9 +332,8 @@ export default function SubscriptionCheckoutModal({
                     type="text"
                     value={state}
                     onChange={(e) => setState(e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
-                      errors.state ? "border-red-500" : "border-gray-300"
-                    }`}
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${errors.state ? "border-red-500" : "border-gray-300"
+                      }`}
                     placeholder="Maharashtra"
                   />
                   {errors.state && (
@@ -355,9 +349,8 @@ export default function SubscriptionCheckoutModal({
                     type="text"
                     value={pincode}
                     onChange={(e) => setPincode(e.target.value)}
-                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
-                      errors.pincode ? "border-red-500" : "border-gray-300"
-                    }`}
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${errors.pincode ? "border-red-500" : "border-gray-300"
+                      }`}
                     placeholder="400001"
                   />
                   {errors.pincode && (
