@@ -210,7 +210,7 @@ export default function JuiceDetailPage() {
       <SubscriptionCheckoutModal
         isOpen={subscribeModalOpen}
         onClose={() => setSubscribeModalOpen(false)}
-        selectedJuiceIds={juice ? [juice.id] : []}
+        selectedCart={juice ? { [juice.id]: 1 } : {}}
       />
     </div>
   );

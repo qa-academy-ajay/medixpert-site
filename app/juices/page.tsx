@@ -24,32 +24,34 @@ export default function JuicesPage() {
         </p>
       </section>
 
-      {/* Category Filters */}
-      <section className="bg-white border-b border-stone-200 px-6 py-8 sticky top-[72px] z-20">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex overflow-x-auto gap-3 pb-2">
-            {juiceCategories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`flex items-center gap-2 px-5 py-3 rounded-full font-medium text-sm transition-all whitespace-nowrap flex-shrink-0 ${
-                  selectedCategory === cat.id
-                    ? "bg-yellow-500 text-slate-900 shadow-md"
-                    : "bg-stone-100 text-stone-600 hover:bg-stone-200"
-                }`}
-              >
-                <span>{cat.icon}</span>
-                {cat.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Juice Grid */}
+      {/* Main Content with Sidebar */}
       <section className="max-w-7xl mx-auto px-6 py-16">
-        {filteredJuices.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex gap-8">
+          {/* Sidebar Filters */}
+          <aside className="w-full md:w-56 flex-shrink-0">
+            <div className="sticky top-24 space-y-3">
+              <h3 className="text-sm font-bold text-stone-700 uppercase tracking-wide mb-4">Filter by Category</h3>
+              {juiceCategories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-sm transition-all text-left ${
+                    selectedCategory === cat.id
+                      ? "bg-yellow-500 text-slate-900 shadow-md"
+                      : "bg-stone-100 text-stone-600 hover:bg-stone-200"
+                  }`}
+                >
+                  <span className="text-lg">{cat.icon}</span>
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+          </aside>
+
+          {/* Juice Grid */}
+          <div className="flex-1">
+            {filteredJuices.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredJuices.map((juice) => (
               <Link
                 key={juice.id}
@@ -101,12 +103,14 @@ export default function JuicesPage() {
                 </div>
               </Link>
             ))}
+            </div>
+            ) : (
+              <div className="text-center py-16">
+                <p className="text-stone-600 text-lg">No juices found in this category.</p>
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="text-center py-16">
-            <p className="text-stone-600 text-lg">No juices found in this category.</p>
-          </div>
-        )}
+        </div>
       </section>
 
       {/* Info Section */}

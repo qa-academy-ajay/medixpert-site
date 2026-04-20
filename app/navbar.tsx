@@ -110,7 +110,7 @@ export default function Navbar() {
               href="/plans"
               className="hidden md:inline-block bg-yellow-500 text-slate-900 text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-yellow-400 transition-all duration-200 shadow-sm"
             >
-              Subscribe Now
+              Subscribe
             </Link>
             <button
               onClick={() => setDrawerOpen(true)}

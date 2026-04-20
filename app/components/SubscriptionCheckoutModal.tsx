@@ -8,7 +8,8 @@ import Image from "next/image";
 type SubscriptionCheckoutModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  selectedJuiceIds: string[];
+  selectedCart: Record<string, number>;
+  onClearCart?: () => void;
 };
 
 type Step = "plan" | "details" | "review";
@@ -16,10 +17,11 @@ type Step = "plan" | "details" | "review";
 export default function SubscriptionCheckoutModal({
   isOpen,
   onClose,
-  selectedJuiceIds,
+  selectedCart,
+  onClearCart,
 }: SubscriptionCheckoutModalProps) {
   const [step, setStep] = useState<Step>("plan");
-  const [selectedPlan, setSelectedPlan] = useState<string>("");
+  const [selectedPlan, setSelectedPlan] = useState<string>("wellness");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -32,12 +34,26 @@ export default function SubscriptionCheckoutModal({
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const selectedJuices = selectedJuiceIds || [];
-  const selectedJuiceDetails = juices.filter((j) =>
-    selectedJuices.includes(j.id)
+  // Extract juice details with quantities from cart
+  const selectedJuiceIds = Object.keys(selectedCart || {});
+  const selectedJuicesTotalQty = Object.values(selectedCart || {}).reduce(
+    (sum, qty) => sum + qty,
+    0
   );
+  
+  const selectedJuiceDetails = juices
+    .filter((j) => selectedJuiceIds.includes(j.id))
+    .map((juice) => ({
+      ...juice,
+      quantity: selectedCart[juice.id],
+    }));
+
   const planDetails = plans.find((p) => p.id === selectedPlan);
-  const totalPrice = selectedJuices.length * 50 * (planDetails?.days || 1);
+
+  // Calculate total price: sum(juice_price * quantity) * plan_days
+  const totalPrice = selectedJuiceDetails.reduce((sum, juice) => {
+    return sum + juice.price * (juice.quantity || 0);
+  }, 0) * (planDetails?.days || 1);
 
   const validateDetails = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -81,7 +97,7 @@ export default function SubscriptionCheckoutModal({
     setLoading(true);
     try {
       const selectedJuiceNames = selectedJuiceDetails
-        .map((j) => j.name)
+        .map((j) => `${j.name}-${j.quantity}`)
         .join(", ");
 
       const response = await fetch("/api/subscribe", {
@@ -96,7 +112,7 @@ export default function SubscriptionCheckoutModal({
           state: state.trim(),
           pincode: pincode.trim(),
           message: message.trim(),
-          juices: selectedJuices,
+          juices: selectedCart,
           plan: `${selectedJuiceNames} - ${planDetails?.label} Plan (${planDetails?.days} days)`,
           totalPrice,
         }),
@@ -109,6 +125,7 @@ export default function SubscriptionCheckoutModal({
 
       setSuccess(true);
       setTimeout(() => {
+        onClearCart?.();
         onClose();
         resetForm();
       }, 2000);
@@ -123,7 +140,7 @@ export default function SubscriptionCheckoutModal({
 
   const resetForm = () => {
     setStep("plan");
-    setSelectedPlan("");
+    setSelectedPlan("wellness");
     setName("");
     setEmail("");
     setPhone("");
@@ -184,8 +201,8 @@ export default function SubscriptionCheckoutModal({
           {/* Selected Juices Summary */}
           <div className="mb-6 p-4 bg-emerald-50 rounded-lg border border-emerald-200">
             <p className="text-sm font-semibold text-emerald-900 mb-2">
-              You selected {selectedJuices.length} juice
-              {selectedJuices.length !== 1 ? "s" : ""}:
+              Your selected juice
+              {selectedJuiceIds.length !== 1 ? "s" : ""}:
             </p>
             <div className="flex flex-wrap gap-2">
               {selectedJuiceDetails.map((juice) => (
@@ -193,7 +210,7 @@ export default function SubscriptionCheckoutModal({
                   key={juice.id}
                   className="px-3 py-1 bg-white border border-emerald-200 rounded-full text-xs font-medium text-emerald-700"
                 >
-                  {juice.name}
+                  {juice.name} - {juice.quantity}
                 </span>
               ))}
             </div>
@@ -203,33 +220,64 @@ export default function SubscriptionCheckoutModal({
           {step === "plan" && (
             <div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                {plans.map((plan) => (
-                  <button
-                    key={plan.id}
-                    onClick={() => setSelectedPlan(plan.id)}
-                    className={`p-4 rounded-lg border-2 transition-all text-left ${selectedPlan === plan.id
-                        ? "border-emerald-500 bg-emerald-50"
-                        : "border-gray-200 bg-white hover:border-emerald-300"
-                      }`}
-                  >
-                    <p className="text-sm font-semibold text-gray-600 mb-2">
-                      {plan.label}
-                    </p>
-                    <p className="text-2xl font-bold text-emerald-700 mb-1">
-                      {plan.days} Days
-                    </p>
-                    <p className="text-lg font-bold text-gray-900 mb-2">
-                      ₹{selectedJuices.length * 50 * plan.days}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      ₹{50 * plan.days} per juice for {plan.days} days
-                    </p>
-                  </button>
-                ))}
+                {plans.map((plan) => {
+                  const priceForPlan = selectedJuiceDetails.reduce((sum, juice) => {
+                    return sum + juice.price * (juice.quantity || 0);
+                  }, 0) * plan.days;
+                  
+                  return (
+                    <button
+                      key={plan.id}
+                      onClick={() => setSelectedPlan(plan.id)}
+                      className={`p-4 rounded-lg border-2 transition-all text-left ${selectedPlan === plan.id
+                          ? "border-emerald-500 bg-emerald-50"
+                          : "border-gray-200 bg-white hover:border-emerald-300"
+                        }`}
+                    >
+                      <p className="text-sm font-semibold text-gray-600 mb-2">
+                        {plan.label}
+                      </p>
+                      <p className="text-2xl font-bold text-emerald-700 mb-1">
+                        {plan.days} Days
+                      </p>
+                      <p className="text-lg font-bold text-gray-900 mb-2">
+                        ₹{priceForPlan}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        ₹{plan.perDay * selectedJuicesTotalQty}/day × {plan.days} days
+                      </p>
+                    </button>
+                  );
+                })}
               </div>
               {errors.plan && (
                 <p className="text-red-600 text-sm mb-4">{errors.plan}</p>
               )}
+
+              {/* Price Breakdown Summary */}
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
+                <h3 className="font-semibold text-amber-900 mb-3">Price Details</h3>
+                <div className="space-y-2 text-sm">
+                  {selectedJuiceDetails.map((juice) => (
+                    <div key={juice.id} className="flex justify-between text-amber-800">
+                      <span>{juice.name} × {juice.quantity}</span>
+                      <span>₹{juice.price * (juice.quantity || 0)} per day</span>
+                    </div>
+                  ))}
+                  <div className="pt-2 border-t border-amber-200 font-semibold text-amber-900 flex justify-between">
+                    <span>Daily Rate</span>
+                    <span>₹{selectedJuiceDetails.reduce((sum, juice) => sum + juice.price * (juice.quantity || 0), 0)}</span>
+                  </div>
+                  <div className="text-amber-900 flex justify-between">
+                    <span>Plan Duration</span>
+                    <span>{planDetails?.days} days</span>
+                  </div>
+                  <div className="pt-2 border-t border-amber-200 font-bold text-emerald-700 flex justify-between">
+                    <span>Total Payable</span>
+                    <span>₹{totalPrice}</span>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
@@ -246,7 +294,7 @@ export default function SubscriptionCheckoutModal({
                   onChange={(e) => setName(e.target.value)}
                   className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${errors.name ? "border-red-500" : "border-gray-300"
                     }`}
-                  placeholder="John Doe"
+                  placeholder="Full Name"
                 />
                 {errors.name && (
                   <p className="text-red-600 text-xs mt-1">{errors.name}</p>
@@ -264,7 +312,7 @@ export default function SubscriptionCheckoutModal({
                     onChange={(e) => setEmail(e.target.value)}
                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${errors.email ? "border-red-500" : "border-gray-300"
                       }`}
-                    placeholder="john@example.com"
+                    placeholder="email address"
                   />
                   {errors.email && (
                     <p className="text-red-600 text-xs mt-1">{errors.email}</p>
@@ -281,7 +329,7 @@ export default function SubscriptionCheckoutModal({
                     onChange={(e) => setPhone(e.target.value)}
                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${errors.phone ? "border-red-500" : "border-gray-300"
                       }`}
-                    placeholder="9876543210"
+                    placeholder="phone number"
                   />
                   {errors.phone && (
                     <p className="text-red-600 text-xs mt-1">{errors.phone}</p>
@@ -298,7 +346,7 @@ export default function SubscriptionCheckoutModal({
                   onChange={(e) => setAddress(e.target.value)}
                   className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${errors.address ? "border-red-500" : "border-gray-300"
                     }`}
-                  placeholder="123 Main Street"
+                  placeholder="address for delivery"
                   rows={2}
                 />
                 {errors.address && (
@@ -317,7 +365,7 @@ export default function SubscriptionCheckoutModal({
                     onChange={(e) => setCity(e.target.value)}
                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${errors.city ? "border-red-500" : "border-gray-300"
                       }`}
-                    placeholder="Mumbai"
+                    placeholder="Gurgaon"
                   />
                   {errors.city && (
                     <p className="text-red-600 text-xs mt-1">{errors.city}</p>
@@ -334,7 +382,7 @@ export default function SubscriptionCheckoutModal({
                     onChange={(e) => setState(e.target.value)}
                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${errors.state ? "border-red-500" : "border-gray-300"
                       }`}
-                    placeholder="Maharashtra"
+                    placeholder="Haryana"
                   />
                   {errors.state && (
                     <p className="text-red-600 text-xs mt-1">{errors.state}</p>
@@ -351,7 +399,7 @@ export default function SubscriptionCheckoutModal({
                     onChange={(e) => setPincode(e.target.value)}
                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${errors.pincode ? "border-red-500" : "border-gray-300"
                       }`}
-                    placeholder="400001"
+                    placeholder="122001"
                   />
                   {errors.pincode && (
                     <p className="text-red-600 text-xs mt-1">
@@ -393,8 +441,8 @@ export default function SubscriptionCheckoutModal({
                   </p>
                   <p className="text-gray-600">
                     <span className="font-medium">Quantity:</span>{" "}
-                    {selectedJuices.length} juice
-                    {selectedJuices.length !== 1 ? "s" : ""}
+                    {selectedJuicesTotalQty} juice
+                    {selectedJuicesTotalQty !== 1 ? "s" : ""}
                   </p>
                 </div>
               </div>
@@ -420,8 +468,7 @@ export default function SubscriptionCheckoutModal({
               <div className="bg-emerald-50 rounded-lg p-4 border border-emerald-200 space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">
-                    {selectedJuices.length} juice
-                    {selectedJuices.length !== 1 ? "s" : ""} × ₹50 × {planDetails?.days} days
+                    {selectedJuiceDetails.map(j => `${j.name} (${j.quantity})`).join(", ")} × {planDetails?.days} days
                   </span>
                   <span className="font-semibold text-gray-900">
                     ₹{totalPrice}

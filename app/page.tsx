@@ -6,6 +6,7 @@ import Image from "next/image";
 import SubscriptionCheckoutModal from "@/app/components/SubscriptionCheckoutModal";
 import { juices, testimonials } from "@/lib/data";
 import { useCart } from "@/hooks/useCart";
+import JuicePlanSelector from "./components/JuicePlanSelector";
 
 function JuiceCard({
   juice,
@@ -292,7 +293,7 @@ export default function HomePage() {
                   onClick={openSubscriptionModal}
                   className="px-6 py-2 rounded-lg bg-white text-emerald-900 font-semibold hover:bg-emerald-50 transition-colors text-sm"
                 >
-                  Subscribe to All →
+                  Subscribe →
                 </button>
               </div>
             </div>
@@ -528,7 +529,8 @@ export default function HomePage() {
       <SubscriptionCheckoutModal
         isOpen={subscribeModalOpen}
         onClose={() => setSubscribeModalOpen(false)}
-        selectedJuiceIds={Object.keys(cart)}
+        selectedCart={cart}
+        onClearCart={clearCart}
       />
     </main>
   );
