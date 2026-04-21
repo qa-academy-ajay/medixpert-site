@@ -1,4 +1,4 @@
-// lib/data.ts — Shared MediXpert data
+// lib/data.ts — Shared MediVeda data
 
 export const juices = [
   {
@@ -226,7 +226,7 @@ export const testimonials = [
     id: "rahul-verma",
     name: "Rahul Verma",
     role: "Startup Founder, Delhi",
-    text: "Replaced my expensive energy drinks with MediXpert. More focused, better digestion, zero guilt. The Immunity Booster is my go-to before important meetings.",
+    text: "Replaced my expensive energy drinks with MediVeda. More focused, better digestion, zero guilt. The Immunity Booster is my go-to before important meetings.",
     result: "Enhanced energy & focus",
     juiceUsed: "Immunity Booster",
   },

@@ -59,7 +59,7 @@ export default function ReviewPage() {
             Customer Reviews
           </h1>
           <p className="text-gray-600 text-lg max-w-2xl">
-            Discover why thousands of people love MediXpert juices. Read real stories of transformation and health improvement.
+            Discover why thousands of people love MediVeda juices. Read real stories of transformation and health improvement.
           </p>
         </div>
       </div>
@@ -259,7 +259,7 @@ export default function ReviewPage() {
             Join Our Wellness Community
           </h2>
           <p className="text-emerald-700 mb-6">
-            Haven&apos;t tried MediXpert yet? Start your transformation today.
+            Haven&apos;t tried MediVeda yet? Start your transformation today.
           </p>
           <Link
             href="/"
@@ -521,7 +521,7 @@ function SubmitReviewModal({ onClose, onSubmit }: SubmitReviewModalProps) {
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Share your experience with MediXpert (minimum 20 characters)"
+              placeholder="Share your experience with MediVeda (minimum 20 characters)"
               rows={5}
               className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
                 errors.text ? "border-red-500" : "border-gray-300"

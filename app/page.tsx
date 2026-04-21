@@ -355,7 +355,7 @@ export default function HomePage() {
               Success Stories from Our Customers
             </h2>
             <p className="text-gray-600 max-w-xl mx-auto text-sm leading-relaxed">
-              Join hundreds of people who&apos;ve transformed their health with MediXpert juices.
+              Join hundreds of people who&apos;ve transformed their health with MediVeda juices.
             </p>
           </div>
 
@@ -497,7 +497,7 @@ export default function HomePage() {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span>🌿</span>
-              <p className="text-white font-bold">MediXpert Herbal Juice</p>
+              <p className="text-white font-bold">MediVeda Herbal Juice</p>
             </div>
             <p className="text-sm max-w-xs leading-relaxed">
               Authentic Ayurvedic juice therapy rooted in Gurgaon, India. Affordable, pure & effective.
@@ -521,7 +521,7 @@ export default function HomePage() {
           </div>
         </div>
         <div className="max-w-5xl mx-auto mt-8 pt-6 border-t border-gray-800 text-xs text-center text-gray-600">
-          © {new Date().getFullYear()} MediXpert Herbal Juice Corner · Gurgaon, India · All rights reserved.
+          © {new Date().getFullYear()} MediVeda Herbal Juice Corner · Gurgaon, India · All rights reserved.
         </div>
       </footer>
 

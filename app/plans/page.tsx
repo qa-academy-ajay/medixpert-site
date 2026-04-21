@@ -26,7 +26,7 @@ export default function PlansPage() {
     const planTexts = selectedPlansList.map((p) => `*${p.label} Plan (${p.days} days)* - ₹${p.price}`).join(", ");
     const totalPrice = selectedPlansList.reduce((sum, p) => sum + p.price, 0);
 
-    const msg = `Hello MediXpert! I'd like to subscribe to ${planTexts} for *${juice?.name} Juice*. Total: ₹${totalPrice}. Please confirm my order.`;
+    const msg = `Hello MediVeda! I'd like to subscribe to ${planTexts} for *${juice?.name} Juice*. Total: ₹${totalPrice}. Please confirm my order.`;
     window.open(`https://wa.me/91XXXXXXXXXX?text=${encodeURIComponent(msg)}`, "_blank");
   };
 

@@ -46,10 +46,10 @@ export default function AboutPage() {
             <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2">Our Story</p>
             <h2 className="text-3xl font-extrabold text-gray-900 mb-4">Born from a belief in nature&apos;s power</h2>
             <blockquote className="border-l-4 border-emerald-500 pl-5 text-gray-600 italic mb-5 leading-relaxed text-sm">
-              &quot;At MediXpert, we believe health begins with nature. Inspired by centuries-old Ayurvedic practices, we craft herbal juices that support immunity, detoxification, and overall vitality — all while being affordable and accessible to everyone.&quot;
+              &quot;At MediVeda, we believe health begins with nature. Inspired by centuries-old Ayurvedic practices, we craft herbal juices that support immunity, detoxification, and overall vitality — all while being affordable and accessible to everyone.&quot;
             </blockquote>
             <p className="text-gray-600 leading-relaxed text-sm">
-              Rooted in the heartland of Gurgaon, India, MediXpert was founded with a simple passion: to make authentic Ayurvedic therapy available to every household — not just a privileged few.
+              Rooted in the heartland of Gurgaon, India, MediVeda was founded with a simple passion: to make authentic Ayurvedic therapy available to every household — not just a privileged few.
             </p>
           </div>
           <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-emerald-100 flex items-center justify-center border border-emerald-200">
@@ -87,7 +87,7 @@ export default function AboutPage() {
         {/* Differentiators */}
         <section>
           <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2">What Makes Us Different</p>
-          <h2 className="text-3xl font-extrabold text-gray-900 mb-8">The MediXpert difference</h2>
+          <h2 className="text-3xl font-extrabold text-gray-900 mb-8">The MediVeda difference</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {differentiators.map((d) => (
               <div key={d.title} className="bg-white border border-gray-100 rounded-2xl p-6 hover:border-emerald-200 transition-colors">
@@ -125,7 +125,7 @@ export default function AboutPage() {
 
         {/* CTA */}
         <section className="bg-emerald-50 border border-emerald-100 rounded-2xl px-8 py-12 text-center">
-          <h2 className="text-3xl font-extrabold text-emerald-900 mb-3">Join the MediXpert family</h2>
+          <h2 className="text-3xl font-extrabold text-emerald-900 mb-3">Join the MediVeda family</h2>
           <p className="text-emerald-700 text-sm max-w-md mx-auto mb-8 leading-relaxed">
             Rediscover the healing power of Ayurveda — one glass at a time. Subscribe to a plan or reach out to learn more.
           </p>
