@@ -178,6 +178,33 @@ export const juices = [
     accent: "text-emerald-700",
     btnBg: "bg-emerald-600 hover:bg-emerald-700",
   },
+  {
+    id: "all in one",
+    category: "all-in-one",
+    emoji: "🛡️",
+    image: "/juices/all-in-one.png",
+    tag: "All-in-One Wellness",
+    name: "All-in-One",
+    tagline: "Complete Health Plan - 7 Days, 7 Juices, 7 Benefits",
+    composition: [
+      { name: "Liver detox juice", qty: "Monday" },
+      { name: "Heart Health juice", qty: "Tuesday" },
+      { name: "Immunity Booster juice", qty: "Wednesday" },
+      { name: "Sugar Control juice", qty: "Thursday" },
+      { name: "Kidney detox juice", qty: "Friday" },
+      { name: "Weight Loss juice", qty: "Saturday" },
+      { name: "Blood Purifier juice", qty: "Sunday" },
+    ],
+    bestFor: ["Overall wellness", "Detox", "Health maintenance"],
+    avoid: ["Autoimmune disease patients", "Allergy-prone individuals"],
+    price: 50,
+    volume: "200 ml",
+    bg: "bg-emerald-50",
+    border: "border-emerald-200",
+    badge: "bg-emerald-100 text-emerald-800",
+    accent: "text-emerald-700",
+    btnBg: "bg-emerald-600 hover:bg-emerald-700",
+  },
 ];
 
 export const plans = [
@@ -257,6 +284,7 @@ export const juiceCategories = [
   { id: "weight", label: "Weight Loss", icon: "🔥" },
   { id: "skin", label: "Skin & Glow", icon: "✨" },
   { id: "immunity", label: "Immunity", icon: "🛡️" },
+  { id: "all in one", label: "All-in-One", icon: "🧩" },
 ];
 
 export const navLinks = [
