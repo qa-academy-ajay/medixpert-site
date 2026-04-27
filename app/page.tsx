@@ -184,7 +184,6 @@ export default function HomePage() {
         {/* Decorative circles */}
         <div className="absolute top-[-60px] left-[-60px] w-64 h-64 bg-emerald-700 rounded-full opacity-20 pointer-events-none" />
         <div className="absolute bottom-[-80px] right-[-40px] w-80 h-80 bg-emerald-600 rounded-full opacity-15 pointer-events-none" />
-
         <div className="relative max-w-3xl mx-auto">
           <span className="inline-block bg-emerald-700/60 text-emerald-200 text-xs font-semibold px-4 py-1.5 rounded-full mb-6 tracking-wide">
             🌱 Rooted in Ayurveda · Made in Gurgaon
@@ -212,6 +211,8 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
+        {/* <Image src="/banner-herbal.png" alt="MediXpert Hero Juice" width={1200} height={600} className="rounded-lg shadow-lg" priority/> */}
+
       </section>
 
       {/* ── Stats Bar ── */}
