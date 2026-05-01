@@ -14,14 +14,14 @@ export default function Navbar() {
       {/* Mobile Overlay */}
       {drawerOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/40 md:hidden"
+          className="fixed inset-0 z-40 bg-black/40 md:hidden pointer-events-auto"
           onClick={() => setDrawerOpen(false)}
         />
       )}
 
       {/* Side Drawer — mobile */}
       <aside
-        className={`fixed top-0 left-0 h-full w-72 z-50 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out md:hidden flex flex-col ${drawerOpen ? "translate-x-0" : "-translate-x-full"
+        className={`fixed top-0 left-0 h-full w-72 z-50 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out md:hidden flex flex-col pointer-events-auto ${drawerOpen ? "translate-x-0" : "-translate-x-full"
           }`}
       >
         {/* Drawer Header */}
@@ -76,7 +76,7 @@ export default function Navbar() {
       </aside>
 
       {/* Top Navbar */}
-      <nav className="sticky top-0 z-30 bg-white/98 backdrop-blur-sm border-b border-stone-200 px-6 py-4">
+      <nav className="sticky top-0 z-30 bg-white/98 backdrop-blur-sm border-b border-stone-200 px-6 py-4 pointer-events-auto">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
@@ -114,8 +114,9 @@ export default function Navbar() {
             </Link>
             <button
               onClick={() => setDrawerOpen(true)}
-              className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-stone-100 transition-colors"
+              className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-stone-100 transition-colors z-50 relative pointer-events-auto"
               aria-label="Open menu"
+              type="button"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M3 12h18M3 6h18M3 18h18" />

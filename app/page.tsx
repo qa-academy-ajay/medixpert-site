@@ -6,7 +6,6 @@ import Image from "next/image";
 import SubscriptionCheckoutModal from "@/app/components/SubscriptionCheckoutModal";
 import { juices, testimonials } from "@/lib/data";
 import { useCart } from "@/hooks/useCart";
-import JuicePlanSelector from "./components/JuicePlanSelector";
 
 function JuiceCard({
   juice,
@@ -180,23 +179,35 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#fafaf7] font-sans">
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden bg-emerald-900 text-white px-6 py-24 text-center">
+      <section
+        className="relative bg-emerald-900 text-white px-6 py-20 overflow-hidden"
+        style={{
+          backgroundImage: "url('/juices/all-in-one.png')",
+          backgroundSize: "contain",
+          backgroundPosition: "right center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        {/* Dark overlay for text visibility */}
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/90 to-emerald-900/40 pointer-events-none" />
+
         {/* Decorative circles */}
         <div className="absolute top-[-60px] left-[-60px] w-64 h-64 bg-emerald-700 rounded-full opacity-20 pointer-events-none" />
         <div className="absolute bottom-[-80px] right-[-40px] w-80 h-80 bg-emerald-600 rounded-full opacity-15 pointer-events-none" />
-        <div className="relative max-w-3xl mx-auto">
-          <span className="inline-block bg-emerald-700/60 text-emerald-200 text-xs font-semibold px-4 py-1.5 rounded-full mb-6 tracking-wide">
+
+        <div className="relative max-w-4xl mx-auto z-10">
+          <span className="inline-block bg-emerald-700/70 text-white text-xs font-semibold px-4 py-1.5 rounded-full mb-4 tracking-wide">
             🌱 Rooted in Ayurveda · Made in Gurgaon
           </span>
-          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-6 tracking-tight">
+          <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-6 tracking-tight text-white">
             Heal Naturally,<br />
-            <span className="text-emerald-300">One Glass at a Time</span>
+            <span className="text-emerald-200">One Glass at a Time</span>
           </h1>
-          <p className="text-emerald-100 text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+          <p className="text-white/95 text-lg max-w-2xl mb-8 leading-relaxed">
             Seven science-backed Ayurvedic juices crafted for modern health challenges —
             liver, heart, sugar, immunity & more. All at just ₹50.
           </p>
-          <div className="flex flex-wrap gap-3 justify-center">
+          <div className="flex flex-wrap gap-3">
             <Link
               href="#juices"
               className="bg-white text-emerald-900 font-semibold px-6 py-3 rounded-xl hover:bg-emerald-50 transition-colors"
@@ -205,14 +216,12 @@ export default function HomePage() {
             </Link>
             <Link
               href="/plans"
-              className="border border-white/40 text-white font-medium px-6 py-3 rounded-xl hover:bg-white/10 transition-colors"
+              className="border-2 border-white text-white font-medium px-6 py-3 rounded-xl hover:bg-white/10 transition-colors"
             >
               View Plans
             </Link>
           </div>
         </div>
-        {/* <Image src="/banner-herbal.png" alt="MediXpert Hero Juice" width={1200} height={600} className="rounded-lg shadow-lg" priority/> */}
-
       </section>
 
       {/* ── Stats Bar ── */}
@@ -234,19 +243,6 @@ export default function HomePage() {
 
       {/* ── Juice Cards ── */}
       <section id="juices" className={`px-6 py-20 max-w-6xl mx-auto ${getTotalItems() > 0 ? "pb-32" : ""}`}>
-        <div className="text-center mb-12">
-          <p className="text-xs font-semibold text-emerald-600 uppercase tracking-widest mb-2">
-            Our Menu
-          </p>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3">
-            7 Healing Juices
-          </h2>
-          <p className="text-gray-500 max-w-md mx-auto text-sm leading-relaxed">
-            Each juice is freshly prepared from Ayurvedic herbs — click any card to see
-            full composition and usage guidance.
-          </p>
-        </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {juices.map((juice) => (
             <JuiceCard
