@@ -25,70 +25,66 @@ function JuiceCard({
 
   return (
     <div
-      className={`group rounded-2xl border-2 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105 ${juice.border} ${juice.bg} ${quantity > 0 ? "ring-2 ring-emerald-500 shadow-xl" : ""}`}
+      className={`rounded-2xl border ${juice.border} ${juice.bg} overflow-hidden transition-all duration-300 ${quantity > 0 ? "ring-2 ring-emerald-500 shadow-lg" : ""}`}
     >
       {/* Card Header */}
-      <div className="p-6 space-y-4">
-        <div className="flex items-start justify-between mb-2">
-          <span className={`text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide ${juice.badge}`}>
+      <div className="p-5">
+        <div className="flex items-start justify-between mb-3">
+          <span className={`text-xs font-semibold px-3 py-1 rounded-full ${juice.badge}`}>
             {juice.tag}
           </span>
           <div className="flex items-center gap-2">
             {quantity > 0 && (
-              <span className="inline-flex items-center justify-center w-6 h-6 bg-emerald-500 text-white rounded-full text-xs font-bold animate-pulse">
+              <span className="inline-flex items-center justify-center w-6 h-6 bg-emerald-500 text-white rounded-full text-xs font-bold">
                 ✓
               </span>
             )}
-            <span className="text-3xl group-hover:scale-125 transition-transform">{juice.emoji}</span>
+            <span className="text-2xl">{juice.emoji}</span>
           </div>
         </div>
-        
-        <div className="w-full h-56 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden rounded-xl border border-gray-200 group-hover:border-gray-300 transition-colors">
+        <div className="w-full h-48 bg-gray-100 flex items-center justify-center overflow-hidden mb-3">
           <Image
             src={juice.image}
             alt={juice.name}
             width={300}
             height={300}
-            className="w-auto h-full object-contain group-hover:scale-110 transition-transform duration-300"
+            className="w-auto h-full object-contain"
           />
         </div>
-        
-        <div>
-          <h3 className="text-xl font-bold text-gray-900">{juice.name} Juice</h3>
-          <p className="text-sm text-gray-600 italic font-light mt-1">\"{juice.tagline}\"</p>
-        </div>
+        <h3 className="text-xl font-bold text-gray-900 mb-1">{juice.name} Juice</h3>
+        <p className="text-sm text-gray-500 italic mb-4">{juice.tagline}</p>
 
         {/* Best For Pills */}
-        <div className="flex flex-wrap gap-2 pt-2">
+        <div className="flex flex-wrap gap-2 mb-4">
           {juice.bestFor.map((b) => (
             <span
               key={b}
-              className="text-xs bg-gradient-to-r from-white/80 to-white/60 border border-gray-200 text-gray-700 px-3 py-1.5 rounded-full font-medium hover:border-gray-300 transition-colors"
+              className="text-xs bg-white/70 border border-gray-200 text-gray-600 px-2 py-1 rounded-full"
             >
               {b}
             </span>
           ))}
         </div>
 
-        {/* Price + Actions */}
-        <div className="flex items-center justify-between pt-2 border-t border-gray-200/50\">
+        {/* Price + Toggle */}
+        <div className="flex items-center justify-between">
           <div>
-            <span className="text-3xl font-extrabold bg-gradient-to-r from-emerald-600 to-emerald-500 bg-clip-text text-transparent\">{juice.price}</span>
-            <span className=\"text-sm text-gray-500 font-medium ml-1\">per ₹{juice.volume}</span>
+            <span className="text-2xl font-bold text-gray-900">₹{juice.price}</span>
+            <span className="text-sm text-gray-400 ml-1">{juice.volume}</span>
           </div>
-          <div className=\"flex items-center gap-2\">
+          <div className="flex items-center gap-2">
             {quantity > 0 ? (
-              <div className=\"flex items-center border-2 border-emerald-300 rounded-lg overflow-hidden bg-white shadow-sm\">
+              <div className="flex items-center border rounded-lg overflow-hidden">
                 <button
                   onClick={onRemove}
-                  className=\"px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-sm font-semibold text-gray-700 transition-colors\"
+                  className="px-3 py-1 bg-gray-200 hover:bg-gray-300 text-sm"
                 >
-                  −
+                  –
                 </button>
-                <span className=\"px-3 text-sm font-bold text-gray-900\">{quantity}</span>
+                <span className="px-3 text-sm font-semibold">{quantity}</span>
                 <button
                   onClick={onAdd}
-                  className=\"px-3 py-1.5 bg-emerald-500 text-white hover:bg-emerald-600 text-sm font-semibold transition-colors\"
+                  className="px-3 py-1 bg-emerald-500 text-white hover:bg-emerald-600 text-sm"
                 >
                   +
                 </button>
@@ -96,7 +92,7 @@ function JuiceCard({
             ) : (
               <button
                 onClick={onAdd}
-                className=\"px-5 py-2 rounded-lg text-sm font-bold bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:shadow-lg hover:scale-105 transition-all duration-200\"
+                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500 text-white hover:bg-emerald-600"
               >
                 Add
               </button>
@@ -104,9 +100,9 @@ function JuiceCard({
 
             <button
               onClick={onToggle}
-              className=\"text-sm font-semibold text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 px-3 py-1.5 rounded-lg transition-all\"
+              className="text-xs font-semibold text-emerald-600 hover:text-emerald-700"
             >
-              {isOpen ? \"✕\" : \"⋮\"}
+              {isOpen ? "Hide Details" : "Show Details"}
             </button>
           </div>
         </div>
