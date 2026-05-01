@@ -584,7 +584,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="bg-gray-900 text-gray-400 px-6 py-10">
+      {/* <footer className="bg-gray-900 text-gray-400 px-6 py-10">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between gap-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -615,7 +615,7 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto mt-8 pt-6 border-t border-gray-800 text-xs text-center text-gray-600">
           © {new Date().getFullYear()} MediVeda Herbal Juice Corner · Gurgaon, India · All rights reserved.
         </div>
-      </footer>
+      </footer> */}
 
       {/* Subscription Checkout Flow Modal */}
       <SubscriptionCheckoutModal
