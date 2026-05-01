@@ -184,7 +184,7 @@ export default function HomePage() {
         style={{
           backgroundImage: "url('/juices/all-in-one.png')",
           backgroundSize: "contain",
-          backgroundPosition: "right center",
+          backgroundPosition: "top-center",
           backgroundRepeat: "no-repeat",
         }}
       >
