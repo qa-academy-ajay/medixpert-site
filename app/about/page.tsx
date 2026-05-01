@@ -18,7 +18,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="bg-emerald-50 border-b border-emerald-100 px-6 py-20 text-center">
+      {/* <section className="bg-emerald-50 border-b border-emerald-100 px-6 py-20 text-center">
         <span className="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-4 py-1.5 rounded-full mb-5 tracking-wide">
           Est. Gurgaon, India
         </span>
@@ -36,13 +36,14 @@ export default function AboutPage() {
             View Plans
           </Link>
         </div>
-      </section>
-
+      </section> */}
       <div className="max-w-5xl mx-auto px-6 py-16 space-y-20">
-
         {/* Brand Story */}
         <section className="grid md:grid-cols-2 gap-12 items-center">
           <div>
+            <Link href="/" className="text-emerald-600 hover:text-emerald-700 font-medium mb-6 inline-block">
+            ← Back to Home
+          </Link>
             <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2">Our Story</p>
             <h2 className="text-3xl font-extrabold text-gray-900 mb-4">Born from a belief in nature&apos;s power</h2>
             <blockquote className="border-l-4 border-emerald-500 pl-5 text-gray-600 italic mb-5 leading-relaxed text-sm">
@@ -124,7 +125,7 @@ export default function AboutPage() {
         </section>
 
         {/* CTA */}
-        <section className="bg-emerald-50 border border-emerald-100 rounded-2xl px-8 py-12 text-center">
+        {/* <section className="bg-emerald-50 border border-emerald-100 rounded-2xl px-8 py-12 text-center">
           <h2 className="text-3xl font-extrabold text-emerald-900 mb-3">Join the MediVeda family</h2>
           <p className="text-emerald-700 text-sm max-w-md mx-auto mb-8 leading-relaxed">
             Rediscover the healing power of Ayurveda — one glass at a time. Subscribe to a plan or reach out to learn more.
@@ -137,7 +138,62 @@ export default function AboutPage() {
               Contact Us
             </Link>
           </div>
-        </section>
+        </section> */}
+        <section className="bg-emerald-50 border border-emerald-100 rounded-2xl px-6 md:px-8 py-12 text-center">
+  <h2 className="text-3xl font-extrabold text-emerald-900 mb-3">
+    Get in Touch
+  </h2>
+
+  <p className="text-emerald-700 text-sm max-w-md mx-auto mb-10 leading-relaxed">
+    Have questions or want to learn more? Reach out to us via email, phone, or visit us.
+  </p>
+
+  {/* Contact Grid */}
+  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+    
+    {/* Email */}
+    <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition">
+      <div className="text-2xl mb-2">📧</div>
+      <p className="text-emerald-900 font-semibold">Email</p>
+      <a
+        href="mailto:info@mediveda.com"
+        className="text-emerald-700 text-sm hover:text-emerald-600"
+      >
+        info@mediveda.com
+      </a>
+    </div>
+
+    {/* Phone */}
+    <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition">
+      <div className="text-2xl mb-2">📞</div>
+      <p className="text-emerald-900 font-semibold">Phone</p>
+      <a
+        href="tel:+1234567890"
+        className="text-emerald-700 text-sm hover:text-emerald-600"
+      >
+        +1 (234) 567-890
+      </a>
+    </div>
+
+    {/* Address */}
+    <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition">
+      <div className="text-2xl mb-2">📍</div>
+      <p className="text-emerald-900 font-semibold">Address</p>
+      <p className="text-emerald-700 text-sm">
+        123 Wellness Street, Ayurveda City
+      </p>
+    </div>
+  </div>
+
+  {/* CTA Button */}
+  <a
+  href="https://wa.me/919999999999"
+  target="_blank"
+  className="inline-block mt-4 text-emerald-700 font-medium"
+>
+  💬 Chat on WhatsApp
+</a>
+</section>
       </div>
     </div>
   );

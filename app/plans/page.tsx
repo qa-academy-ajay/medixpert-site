@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 import { useState } from "react";
 import { plans, juices } from "@/lib/data";
@@ -16,8 +17,6 @@ export default function PlansPage() {
     );
   };
 
-
-
   const handleOrder = () => {
     if (!selectedJuice || selectedPlans.length === 0) return;
     const juice = juices.find((j) => selectedJuice.includes(j.id));
@@ -33,57 +32,26 @@ export default function PlansPage() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <section className="bg-white border-b border-gray-100 px-6 py-14 text-center">
-        <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2">Subscription Plans</p>
-        <h1 className="text-4xl font-extrabold text-gray-900 mb-3">Pick Your Wellness Journey</h1>
-        <p className="text-gray-500 max-w-md mx-auto text-sm leading-relaxed">
-          All plans include fresh daily juice preparation at just ₹50/day. Choose a plan and get started today.
-        </p>
-      </section>
-
       <div className="max-w-5xl mx-auto px-6 py-14 space-y-16">
-
-        {/* Juice Picker */}
-        <div>
-          <h2 className="text-2xl font-extrabold text-gray-900 mb-2">Choose your juice</h2>
-          <p className="text-sm text-gray-500 mb-6">Select the juice that matches your health goal.</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {juices.map((juice) => (
-              <button
-                key={juice.id}
-                onClick={() => toggleJuice(juice.id)}
-
-                className={`text-left rounded-xl border p-4 transition-all duration-200 ${selectedJuice.includes(juice.id)
-                    ? `${juice.bg} ${juice.border} shadow-sm`
-                    : "bg-white border-gray-100 hover:border-gray-200"
-                  }`}
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-xl">{juice.emoji}</span>
-                  <div>
-                    <p className="text-sm font-bold text-gray-900">{juice.name} Juice</p>
-                    <p className="text-xs text-gray-400">{juice.bestFor.join(", ")}</p>
-                  </div>
-                  {selectedJuice.includes(juice.id) && (
-                    <span className={`ml-auto text-sm font-bold ${juice.accent}`}>✓</span>
-                  )}
-                </div>
-              </button>
-            ))}
+        <div className="md:col-span-3 text-left">
+          <Link href="/" className="text-emerald-600 hover:text-emerald-700 font-medium mb-6 inline-block">
+            ← Back to Home
+          </Link>
+            <h1 className="text-4xl font-extrabold text-gray-900 mb-4">Choose your plan</h1>
+            <p className="text-gray-500 text-lg">Select the plan that fits your lifestyle and health goals.</p>
           </div>
-        </div>
-
         {/* Plans Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+         
           {plans.map((plan) => (
             <div
               key={plan.id}
               onClick={() => setSelectedPlans(plan.id)}
               className={`rounded-2xl p-6 border relative cursor-pointer transition-all duration-200 ${selectedPlans === plan.id
-                  ? "border-emerald-500 bg-emerald-900 text-white shadow-lg scale-[1.02]"
-                  : plan.popular
-                    ? "border-emerald-300 bg-emerald-50"
-                    : "border-gray-200 bg-white hover:border-emerald-200 hover:shadow-sm"
+                ? "border-emerald-500 bg-emerald-900 text-white shadow-lg scale-[1.02]"
+                : plan.popular
+                  ? "border-emerald-300 bg-emerald-50"
+                  : "border-gray-200 bg-white hover:border-emerald-200 hover:shadow-sm"
                 }`}
             >
               {plan.popular && selectedPlans !== plan.id && (
@@ -109,11 +77,40 @@ export default function PlansPage() {
             </div>
           ))}
         </div>
+        {/* Juice Picker */}
+        <div>
+          <h2 className="text-2xl font-extrabold text-gray-900 mb-2">Choose your juice</h2>
+          <p className="text-sm text-gray-500 mb-6">Select the juice that matches your health goal.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {juices.map((juice) => (
+              <button
+                key={juice.id}
+                onClick={() => toggleJuice(juice.id)}
 
+                className={`text-left rounded-xl border p-4 transition-all duration-200 ${selectedJuice.includes(juice.id)
+                  ? `${juice.bg} ${juice.border} shadow-sm`
+                  : "bg-white border-gray-100 hover:border-gray-200"
+                  }`}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-xl">{juice.emoji}</span>
+                  <div>
+                    <p className="text-sm font-bold text-gray-900">{juice.name} Juice</p>
+                    <p className="text-xs text-gray-400">{juice.bestFor.join(", ")}</p>
+                    
+                  </div>
+                  {selectedJuice.includes(juice.id) && (
+                    <span className={`ml-auto text-sm font-bold ${juice.accent}`}>✓</span>
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
         {/* Order Summary */}
         <div className={`rounded-2xl border p-7 transition-all ${selectedPlans.length > 0 && selectedJuice
-            ? "border-emerald-200 bg-emerald-50"
-            : "border-dashed border-gray-200 bg-white"
+          ? "border-emerald-200 bg-emerald-50"
+          : "border-dashed border-gray-200 bg-white"
           }`}>
           <h2 className="text-xl font-extrabold text-gray-900 mb-4">Order Summary</h2>
           {selectedPlans.length > 0 && selectedJuice ? (
@@ -164,24 +161,6 @@ export default function PlansPage() {
               Select plans and juice above to see your order summary.
             </p>
           )}
-        </div>
-
-        {/* FAQ */}
-        <div>
-          <h2 className="text-2xl font-extrabold text-gray-900 mb-6">Common questions</h2>
-          <div className="space-y-4">
-            {[
-              { q: "When should I drink the juice?", a: "Every morning on an empty stomach, 30 minutes before breakfast, for best results." },
-              { q: "Can I switch juices mid-plan?", a: "Yes, contact us on WhatsApp and we'll adjust your plan accordingly." },
-              { q: "Are the juices freshly made?", a: "Yes, all juices are freshly prepared daily with no preservatives or additives." },
-              { q: "Is there home delivery?", a: "Yes, we deliver within our service area in Bihar. Contact us to confirm availability in your area." },
-            ].map(({ q, a }) => (
-              <div key={q} className="bg-white border border-gray-100 rounded-xl p-5">
-                <p className="font-bold text-gray-900 text-sm mb-1.5">{q}</p>
-                <p className="text-gray-500 text-sm leading-relaxed">{a}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </div>
