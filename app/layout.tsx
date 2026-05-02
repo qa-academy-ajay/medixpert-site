@@ -21,7 +21,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "MediVeda Herbal Juice",
+  title: "NaturoAmrit Herbal Juice",
   description: "Health in Every Sip — Ayurvedic Juice Therapy",
 };
 
@@ -39,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
         {/* Footer */}
         <footer className="bg-slate-800 text-white text-center p-4 mt-12">
-          © {new Date().getFullYear()} MediVeda Herbal Juice — Health in Every Sip
+          © {new Date().getFullYear()} NaturoAmrit Herbal Juice — Health in Every Sip
         </footer>
       </body>
     </html>

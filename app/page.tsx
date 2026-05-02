@@ -54,7 +54,7 @@ function JuiceCard({
         </div>
 
         <div>
-          <h3 className="text-lg sm:text-xl font-bold text-gray-900">{juice.name} Juice</h3>
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900">{juice.name}</h3>
           <p className="text-xs sm:text-sm text-gray-600 italic font-light mt-1">&quot;{juice.tagline}&quot;</p>
         </div>
 
@@ -278,7 +278,7 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 to-transparent rounded-3xl blur-2xl" />
                 <Image
                   src="/juices/all-in-one.png"
-                  alt="MediVeda Juices"
+                  alt="NaturoAmrit Juices"
                   width={800}
                   height={600}
                   className="w-full h-full object-contain relative z-10"
@@ -486,7 +486,7 @@ export default function HomePage() {
               Success Stories from Our Customers
             </h2>
             <p className="text-gray-600 max-w-xl mx-auto text-sm leading-relaxed">
-              Join hundreds of people who&apos;ve transformed their health with MediVeda juices.
+              Join hundreds of people who&apos;ve transformed their health with NaturoAmrit juices.
             </p>
           </div>
 
@@ -589,7 +589,7 @@ export default function HomePage() {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span>🌿</span>
-              <p className="text-white font-bold">MediVeda Herbal Juice</p>
+              <p className="text-white font-bold">NaturoAmrit Herbal Juice</p>
             </div>
             <p className="text-sm max-w-xs leading-relaxed">
               Authentic Ayurvedic juice therapy rooted in Gurgaon, India. Affordable, pure & effective.
@@ -613,7 +613,7 @@ export default function HomePage() {
           </div>
         </div>
         <div className="max-w-5xl mx-auto mt-8 pt-6 border-t border-gray-800 text-xs text-center text-gray-600">
-          © {new Date().getFullYear()} MediVeda Herbal Juice Corner · Gurgaon, India · All rights reserved.
+          © {new Date().getFullYear()} NaturoAmrit Herbal Juice Corner · Gurgaon, India · All rights reserved.
         </div>
       </footer> */}
 
