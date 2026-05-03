@@ -2,204 +2,228 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useCart } from "@/app/context/CartContext";
 
 export default function CartPage() {
+  const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState(false);
   const {
     cart,
     updateQuantity,
     removeFromCart,
     clearCart,
+    getTotalItems,
     getTotalPrice,
+    isHydrated,
   } = useCart();
 
-  const handleCheckout = () => {
-    if (cart.length === 0) return;
-    setIsLoading(true);
-    // Navigate to review/summary page
-    window.location.href = "/checkout-summary";
-  };
+  // ✅ Prevent hydration flicker (CRITICAL FIX)
+  if (!isHydrated) return null;
 
-
+  // ✅ Empty Cart UI
   if (cart.length === 0) {
     return (
       <div className="min-h-screen bg-stone-50 pt-24 pb-16">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center py-20">
             <div className="text-6xl mb-6">🛒</div>
+
             <h1 className="font-serif text-4xl font-bold text-slate-900 mb-3">
               Your cart is empty
             </h1>
+
             <p className="text-stone-600 mb-8 text-lg">
-              Explore our collection of premium Ayurvedic juices and add items to your cart.
+              Add some fresh juices to get started.
             </p>
+
             <Link
-              href="/juices"
-              className="inline-block bg-yellow-500 text-slate-900 font-semibold px-8 py-4 rounded-lg hover:bg-yellow-400 transition-all"
+              href="/#juices"
+              className="inline-block bg-emerald-600 text-white font-semibold px-8 py-4 rounded-lg hover:bg-emerald-700 transition"
             >
               Continue Shopping
             </Link>
-            {/* <button
-              onClick={openSubscriptionModal}
-              className="px-4 sm:px-6 py-2 rounded-lg bg-white text-emerald-900 font-bold hover:bg-emerald-50 transition-colors text-xs sm:text-sm active:scale-95 flex-1 sm:flex-none min-h-10"
-            >
-              Subscribe →
-            </button> */}
           </div>
         </div>
       </div>
     );
   }
 
-  const total = getTotalPrice();
-  const tax = Math.round(total * 0.05); // 5% tax
-  const grandTotal = total + tax;
+  // ✅ Calculations (corrected)
+  const subtotal = getTotalPrice();
+  const tax = Math.round(subtotal * 0.05);
+  const shipping = 0;
+  const total = subtotal + tax + shipping;
+
+  const handleCheckout = () => {
+    router.push("/checkout-summary"); // ✅ FIXED (no flicker)
+  };
 
   return (
-    <div className="min-h-screen bg-stone-50 pt-24 pb-16">
+    <main className="min-h-screen bg-stone-50 pt-24 pb-16">
       <div className="max-w-6xl mx-auto px-6">
+
         {/* Header */}
         <div className="mb-12">
-          <Link href="/juices" className="text-yellow-600 hover:text-yellow-700 font-medium mb-6 inline-block">
-            ← Back to Juices
+          <Link
+            href="/#juices"
+            className="text-emerald-600 hover:text-emerald-700 font-medium mb-6 inline-block"
+          >
+            ← Continue Shopping
           </Link>
-          <h1 className="font-serif text-4xl font-bold text-slate-900">Shopping Cart</h1>
-          <p className="text-stone-600 mt-2">{cart.length} item{cart.length !== 1 ? "s" : ""} in cart</p>
+
+          <h1 className="font-serif text-4xl font-bold text-slate-900">
+            Shopping Cart
+          </h1>
+
+          <p className="text-stone-600 mt-2">
+            {getTotalItems()} item{getTotalItems() !== 1 ? "s" : ""} in cart
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Cart Items */}
-          <div className="lg:col-span-2">
-            <div className="space-y-4">
-              {cart.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-white rounded-xl border border-stone-200 p-6 flex gap-6 hover:shadow-md transition-shadow"
-                >
-                  {/* Product Image */}
-                  <div className="flex-shrink-0 w-24 h-24 bg-stone-50 rounded-lg flex items-center justify-center border border-stone-200">
-                    {item.image ? (
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        width={100}
-                        height={100}
-                        className="w-full h-full object-contain p-2"
-                      />
-                    ) : (
-                      <div className="text-3xl">🧃</div>
-                    )}
-                  </div>
 
-                  {/* Product Details */}
-                  <div className="flex-grow">
-                    <h3 className="font-semibold text-slate-900 text-lg mb-1">{item.name}</h3>
-                    {item.volume && (
-                      <p className="text-sm text-stone-500 mb-3">{item.volume}</p>
-                    )}
-                    <p className="text-yellow-600 font-bold text-lg">₹{item.price}</p>                 
-                   </div>
-                    {/* Quantity and Actions */}
-                    <div className="flex flex-col items-end justify-between">
-                      <button
-                        onClick={() => removeFromCart(item.id)}
-                        className="text-red-500 hover:text-red-700 text-sm font-medium"
-                      >
-                        Remove
-                      </button>
+          {/* LEFT: Cart Items */}
+          <div className="lg:col-span-2 space-y-4">
 
-                      <div className="flex items-center border border-stone-300 rounded-lg bg-stone-50">
-                        <button
-                          onClick={() =>
-                            updateQuantity(item.id, Math.max(1, item.quantity - 1))
-                          }
-                          className="px-3 py-2 text-slate-600 hover:bg-stone-200 transition-colors"
-                        >
-                          −
-                        </button>
-                        <span className="px-4 py-2 font-semibold text-slate-900">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
-                          }
-                          className="px-3 py-2 text-slate-600 hover:bg-stone-200 transition-colors"
-                        >
-                          +
-                        </button>
-                      </div>
-
-                      <div className="text-right">
-                        <p className="text-sm text-stone-500 mb-1">Subtotal</p>
-                        <p className="text-lg font-bold text-slate-900">
-                          ₹{item.price * item.quantity}
-
-                        </p>
-                      </div>
-                    </div>
+            {cart.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white rounded-xl border border-stone-200 p-6 flex gap-6 hover:shadow-md transition"
+              >
+                {/* Image */}
+                <div className="w-24 h-24 bg-stone-50 rounded-lg flex items-center justify-center border">
+                  {item.image ? (
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      width={100}
+                      height={100}
+                      className="object-contain p-2"
+                    />
+                  ) : (
+                    <span className="text-3xl">🧃</span>
+                  )}
                 </div>
 
+                {/* Info */}
+                <div className="flex-1">
+                  <h3 className="font-semibold text-slate-900 text-lg">
+                    {item.name}
+                  </h3>
 
-              ))}
-            </div>
+                  {item.volume && (
+                    <p className="text-sm text-stone-500">{item.volume}</p>
+                  )}
+
+                  <p className="mt-2 text-sm text-stone-600">
+                    ₹{item.price} × {item.quantity}
+                  </p>
+                </div>
+
+                {/* Actions */}
+                <div className="flex flex-col items-end justify-between">
+
+                  {/* Remove */}
+                  <button
+                    onClick={() => removeFromCart(item.id)}
+                    className="text-red-500 hover:text-red-700 text-sm"
+                  >
+                    Remove
+                  </button>
+
+                  {/* Quantity */}
+                  <div className="flex items-center border rounded-lg overflow-hidden">
+                    <button
+                      onClick={() =>
+                        updateQuantity(item.id, item.quantity - 1)
+                      }
+                      className="px-3 py-1 hover:bg-stone-100"
+                    >
+                      −
+                    </button>
+
+                    <span className="px-4 font-semibold">
+                      {item.quantity}
+                    </span>
+
+                    <button
+                      onClick={() =>
+                        updateQuantity(item.id, item.quantity + 1)
+                      }
+                      className="px-3 py-1 hover:bg-stone-100"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  {/* Price */}
+                  <p className="font-bold text-emerald-600 text-lg">
+                    ₹{item.price * item.quantity}
+                  </p>
+                </div>
+              </div>
+            ))}
 
             {/* Clear Cart */}
             <button
               onClick={clearCart}
-              className="mt-6 text-red-600 hover:text-red-700 font-medium text-sm"
-            >
+              className="mt-4 mx-auto block bg-orange-100 text-orange-600 px-6 py-2 rounded-lg hover:bg-orange-200 transition"            >
               Clear Cart
             </button>
           </div>
 
-          {/* Order Summary */}
+          {/* RIGHT: Summary */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl border border-stone-200 p-8 sticky top-24">
-              <h2 className="text-xl font-bold text-slate-900 mb-6">Order Summary</h2>
 
-              <div className="space-y-4 mb-6 pb-6 border-b border-stone-200">
-                <div className="flex justify-between text-stone-700">
+              <h2 className="text-xl font-bold text-slate-900 mb-6">
+                Order Summary
+              </h2>
+
+              {/* Breakdown */}
+              <div className="space-y-3 mb-6 border-b pb-6">
+
+                <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="font-medium">₹{total}</span>
+                  <span>₹{subtotal}</span>
                 </div>
-                <div className="flex justify-between text-stone-700">
+
+                <div className="flex justify-between">
                   <span>Tax (5%)</span>
-                  <span className="font-medium">₹{tax}</span>
+                  <span>₹{tax}</span>
                 </div>
-                <div className="flex justify-between text-stone-700">
+
+                <div className="flex justify-between">
                   <span>Shipping</span>
-                  <span className="font-medium">Free</span>
+                  <span className="text-green-600 font-medium">Free</span>
                 </div>
               </div>
 
-              <div className="flex justify-between items-center mb-8 text-lg">
-                <span className="font-bold text-slate-900">Total</span>
-                <span className="font-bold text-yellow-600">₹{grandTotal}</span>
+              {/* Total */}
+              <div className="flex justify-between text-lg mb-6">
+                <span className="font-bold">Total</span>
+                <span className="font-bold text-emerald-600">₹{total}</span>
               </div>
 
+              {/* CTA */}
               <button
                 onClick={handleCheckout}
-                disabled={isLoading || cart.length === 0}
-                className="w-full bg-yellow-500 text-slate-900 font-bold py-4 rounded-lg hover:bg-yellow-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-yellow-500 text-slate-900 font-bold py-4 rounded-lg hover:bg-yellow-400 transition"
               >
-                {"Proceed to Checkout"}
-
+                Proceed to Checkout →
               </button>
 
               <Link
-                href="/juices"
-                className="block text-center mt-4 text-yellow-600 hover:text-yellow-700 font-medium"
-              >
+                href="/#home"
+                className="mt-4 block text-center text-sm text-emerald-600 hover:text-emerald-700">
                 Continue Shopping
               </Link>
             </div>
           </div>
+
         </div>
       </div>
-    </div>
+    </main>
   );
 }

@@ -38,8 +38,8 @@ export default function CheckoutSummaryPage() {
 
     const subtotal = getTotalPrice();
     const tax = Math.round(subtotal * 0.05);
-    const shipping = 50;
-    const total = subtotal + tax + shipping;
+    const shipping = 'Free';
+    const total = subtotal + tax + (shipping === 'Free' ? 0 : shipping);
 
     const handleProceedToOrder = () => {
         setCheckoutType("order");
@@ -210,60 +210,13 @@ export default function CheckoutSummaryPage() {
                     {/* Sticky Sidebar - Quick Summary */}
                     <div className="lg:col-span-1">
                         <div className="bg-white rounded-xl border border-stone-200 p-6 sticky top-24">
-                            <h2 className="text-xl font-bold text-slate-900 mb-6">Order Summary</h2>
-
-                            {/* Quick Items List */}
-                            <div className="space-y-2 mb-6 pb-6 border-b border-stone-200">
-                                {cart.map((item) => (
-                                    <div key={item.id} className="flex justify-between text-sm">
-                                        <span className="text-stone-600">{item.name}</span>
-                                        <span className="font-medium text-slate-900">₹{item.price * item.quantity}</span>
-                                    </div>
-                                ))}
-                            </div>
-
-                            {/* Totals */}
-                            <div className="space-y-2 mb-6">
-                                <div className="flex justify-between text-sm text-stone-600">
-                                    <span>Subtotal</span>
-                                    <span>₹{subtotal}</span>
-                                </div>
-                                <div className="flex justify-between text-sm text-stone-600">
-                                    <span>Tax</span>
-                                    <span>₹{tax}</span>
-                                </div>
-                                <div className="flex justify-between text-sm text-stone-600">
-                                    <span>Shipping</span>
-                                    <span>₹{shipping}</span>
-                                </div>
-                                <div className="pt-3 border-t border-stone-200 flex justify-between font-bold text-slate-900">
-                                    <span>Total</span>
-                                    <span className="text-emerald-600 text-lg">₹{total}</span>
-                                </div>
-                            </div>
-
-                            {/* CTA Buttons */}
-                            <div className="space-y-3">
-                                <button
-                                    onClick={handleProceedToOrder}
-                                    className="w-full py-3 bg-yellow-500 text-slate-900 font-bold rounded-lg hover:bg-yellow-400 transition-colors"
-                                >
-                                    Order Now
-                                </button>
-                                <button
-                                    onClick={handleProceedToSubscribe}
-                                    className="w-full py-3 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700 transition-colors"
-                                >
-                                    Subscribe
-                                </button>
-                            </div>
 
                             {/* Continue Shopping */}
                             <Link
-                                href="/#juices"
+                                href="/#home"
                                 className="block text-center mt-4 text-emerald-600 hover:text-emerald-700 font-medium text-sm"
                             >
-                                ← Continue Shopping
+                                Continue Shopping
                             </Link>
                         </div>
                     </div>

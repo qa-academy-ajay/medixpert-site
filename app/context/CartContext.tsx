@@ -1,9 +1,8 @@
-// context/CartContext.tsx
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState, useMemo } from "react";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// ─── Types ─────────────────────────────────────────────────
 export type CartItem = {
   id: string;
   name: string;
@@ -19,66 +18,57 @@ type CartContextType = {
   updateQuantity: (id: string, quantity: number) => void;
   removeFromCart: (id: string) => void;
   clearCart: () => void;
-  getTotal: () => number;
-  getTotalItems: () => number;
   getTotalPrice: () => number;
-  isHydrated: boolean; // ✅ important for SSR safety
+  getTotalItems: () => number;
+  isHydrated: boolean;
 };
 
-// ─── Context ──────────────────────────────────────────────────────────────────
+// ─── Context ───────────────────────────────────────────────
 const CartContext = createContext<CartContextType | undefined>(undefined);
+const STORAGE_KEY = "naturoamrit-cart";
 
-const CART_STORAGE_KEY = "naturoamrit-cart";
-
-// ─── Provider ─────────────────────────────────────────────────────────────────
+// ─── Provider ──────────────────────────────────────────────
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isHydrated, setIsHydrated] = useState(false);
 
-  // Load cart from localStorage AFTER mount
+  // Load from localStorage
   useEffect(() => {
     try {
-      const savedCart = localStorage.getItem(CART_STORAGE_KEY);
-      if (savedCart) {
-        setCart(JSON.parse(savedCart));
-      }
-    } catch (err) {
-      console.error("Failed to parse saved cart:", err);
+      const data = localStorage.getItem(STORAGE_KEY);
+      if (data) setCart(JSON.parse(data));
+    } catch (e) {
+      console.error("Cart parse error", e);
     } finally {
       setIsHydrated(true);
     }
   }, []);
 
-  // Save cart to localStorage
+  // Save to localStorage
   useEffect(() => {
     if (isHydrated) {
-      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
     }
   }, [cart, isHydrated]);
 
-  // ─── Actions ────────────────────────────────────────────────────────────────
+  // ─── Actions ─────────────────────────────────────────────
   const addToCart = (item: Omit<CartItem, "quantity">) => {
     setCart((prev) => {
       const existing = prev.find((i) => i.id === item.id);
-
       if (existing) {
         return prev.map((i) =>
           i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
         );
       }
-
       return [...prev, { ...item, quantity: 1 }];
     });
   };
 
   const updateQuantity = (id: string, quantity: number) => {
-    if (quantity <= 0) {
-      removeFromCart(id);
-      return;
-    }
-
     setCart((prev) =>
-      prev.map((i) => (i.id === id ? { ...i, quantity } : i))
+      quantity <= 0
+        ? prev.filter((i) => i.id !== id)
+        : prev.map((i) => (i.id === id ? { ...i, quantity } : i))
     );
   };
 
@@ -88,40 +78,37 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clearCart = () => setCart([]);
 
-  // ─── Selectors ──────────────────────────────────────────────────────────────
-  const getTotal = () =>
-    cart.reduce((total, item) => total + item.quantity * item.price, 0);
-
-  const getTotalItems = () =>
-    cart.reduce((total, item) => total + item.quantity, 0);
-
-  const getTotalPrice = () => getTotal();
-
-  // ─── Provider ───────────────────────────────────────────────────────────────
-  return (
-    <CartContext.Provider
-      value={{
-        cart,
-        addToCart,
-        updateQuantity,
-        removeFromCart,
-        clearCart,
-        getTotal,
-        getTotalItems,
-        getTotalPrice,
-        isHydrated, // ✅ critical
-      }}
-    >
-      {children}
-    </CartContext.Provider>
+  // ─── Derived State (IMPORTANT FIX) ───────────────────────
+  const getTotalItems = useMemo(
+    () => () => cart.reduce((sum, i) => sum + i.quantity, 0),
+    [cart]
   );
+
+  const getTotalPrice = useMemo(
+    () => () => cart.reduce((sum, i) => sum + i.price * i.quantity, 0),
+    [cart]
+  );
+
+  const value = useMemo(
+    () => ({
+      cart,
+      addToCart,
+      updateQuantity,
+      removeFromCart,
+      clearCart,
+      getTotalItems,
+      getTotalPrice,
+      isHydrated,
+    }),
+    [cart, getTotalItems, getTotalPrice, isHydrated]
+  );
+
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
-// ─── Hook ─────────────────────────────────────────────────────────────────────
+// ─── Hook ─────────────────────────────────────────────────
 export const useCart = () => {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error("useCart must be used within a CartProvider");
-  }
-  return context;
+  const ctx = useContext(CartContext);
+  if (!ctx) throw new Error("useCart must be used inside provider");
+  return ctx;
 };
