@@ -1,4 +1,4 @@
-// lib/data.ts — Shared MediXpert data
+// lib/data.ts — Shared NaturoAmrit data
 
 export const juices = [
   {
@@ -7,9 +7,9 @@ export const juices = [
     emoji: "🫀",
     // add images in public/juices and update paths here
     image: "/juices/liver-detox.png",
-    tag: "Liver Cleanse Juice",
+    tag: "Liver Support Juice",
     name: "Liver Detox",
-    tagline: "Flush. Cleanse. Restore.",
+    tagline: "Supports liver detox & healthy digestion",
     composition: [
       { name: "Giloy juice", qty: "15 ml" },
       { name: "Amla juice", qty: "50 ml" },
@@ -33,9 +33,9 @@ export const juices = [
     category: "heart",
     emoji: "❤️",
     image: "/juices/heart-health.png",
-    tag: "Heart Booster Juice",
+    tag: "Heart Health Juice",
     name: "Heart Health",
-    tagline: "Strengthen. Circulate. Thrive.",
+    tagline: "Supports healthy cholesterol & circulation",
     composition: [
       { name: "Arjun chaal decoction", qty: "40 ml" },
       { name: "Beetroot juice", qty: "80 ml" },
@@ -59,7 +59,7 @@ export const juices = [
     image: "/juices/sugar-control.png",
     tag: "Sugar Control Juice",
     name: "Sugar Control",
-    tagline: "Balance. Regulate. Energise.",
+    tagline: "Helps maintain healthy blood sugar levels",
     composition: [
       { name: "Karela juice", qty: "80 ml" },
       { name: "Amla juice", qty: "40 ml" },
@@ -83,16 +83,16 @@ export const juices = [
     category: "kidney",
     emoji: "💧",
     image: "/juices/kidney-detox.png",
-    tag: "Kidney Cleanse Juice",
+    tag: "Kidney Support Juice",
     name: "Kidney Detox",
-    tagline: "Hydrate. Purify. Renew.",
+    tagline: "Supports hydration & kidney function",
     composition: [
       { name: "Lauki juice", qty: "150 ml" },
       { name: "Dhaniya juice", qty: "40 ml" },
       { name: "Amla juice", qty: "30 ml" },
       { name: "Lemon", qty: "5 ml" },
     ],
-    bestFor: ["Water retention", "Mild kidney support", "Summer hydration"],
+    bestFor: ["Water retention", "Mild kidney support"],
     avoid: ["Advanced kidney disease", "Dialysis patients"],
     price: 50,
     volume: "200 ml",
@@ -107,9 +107,9 @@ export const juices = [
     category: "weight",
     emoji: "🔥",
     image: "/juices/weight-loss.png",
-    tag: "Fat Cutter Drink",
+    tag: "Weight Management Juice",
     name: "Weight Loss",
-    tagline: "Cut. Burn. Transform.",
+    tagline: "Supports metabolism & healthy weight management",
     composition: [
       { name: "Lauki juice", qty: "150 ml" },
       { name: "Methi water", qty: "20 ml" },
@@ -132,9 +132,9 @@ export const juices = [
     category: "skin",
     emoji: "✨",
     image: "/juices/blood-purifier.png",
-    tag: "Skin Glow Detox",
-    name: "Blood Purifier",
-    tagline: "Purify. Glow. Radiate.",
+    tag: "Skin Glow Juice",
+    name: "Skin Glow",
+    tagline: "Supports clear skin & natural glow",
     composition: [
       { name: "Neem extract", qty: "5 ml" },
       { name: "Giloy juice", qty: "15 ml" },
@@ -142,7 +142,7 @@ export const juices = [
       { name: "Tulsi extract", qty: "5 ml" },
       { name: "Water", qty: "balance" },
     ],
-    bestFor: ["Acne / skin issues", "Body detox", "Immunity support"],
+    bestFor: ["Body detox", "Immunity support"],
     avoid: ["Pregnant women", "Low BP individuals", "Long-term continuous use"],
     price: 50,
     volume: "200 ml",
@@ -157,9 +157,9 @@ export const juices = [
     category: "immunity",
     emoji: "🛡️",
     image: "/juices/immunity-booster.png",
-    tag: "Immunity Shot",
+    tag: "Immunity Booster Juice",
     name: "Immunity Booster",
-    tagline: "Defend. Protect. Recover.",
+    tagline: "Supports natural immunity & daily wellness",
     composition: [
       { name: "Amla juice", qty: "80 ml" },
       { name: "Giloy", qty: "10 ml" },
@@ -168,7 +168,34 @@ export const juices = [
       { name: "Honey (optional)", qty: "5 ml" },
       { name: "Water", qty: "balance" },
     ],
-    bestFor: ["Frequent cold/cough", "Low immunity", "Seasonal protection"],
+    bestFor: ["Frequent cold/cough", "Low immunity"],
+    avoid: ["Autoimmune disease patients", "Allergy-prone individuals"],
+    price: 50,
+    volume: "200 ml",
+    bg: "bg-emerald-50",
+    border: "border-emerald-200",
+    badge: "bg-emerald-100 text-emerald-800",
+    accent: "text-emerald-700",
+    btnBg: "bg-emerald-600 hover:bg-emerald-700",
+  },
+  {
+    id: "all in one",
+    category: "all-in-one",
+    emoji: "🛡️",
+    image: "/juices/all-in-one.png",
+    tag: "All-in-One Wellness Juice",
+    name: "All-in-One",
+    tagline: "Complete Health Plan - 7 Days, 7 Juices, 7 Benefits",
+    composition: [
+      { name: "Liver support juice", qty: "Monday" },
+      { name: "Heart Health juice", qty: "Tuesday" },
+      { name: "Immunity Booster juice", qty: "Wednesday" },
+      { name: "Sugar Balance juice", qty: "Thursday" },
+      { name: "Kidney support juice", qty: "Friday" },
+      { name: "Weight Management juice", qty: "Saturday" },
+      { name: "Skin Glow juice", qty: "Sunday" },
+    ],
+    bestFor: ["Overall wellness", "Detox", "Health maintenance"],
     avoid: ["Autoimmune disease patients", "Allergy-prone individuals"],
     price: 50,
     volume: "200 ml",
@@ -226,7 +253,7 @@ export const testimonials = [
     id: "rahul-verma",
     name: "Rahul Verma",
     role: "Startup Founder, Delhi",
-    text: "Replaced my expensive energy drinks with MediXpert. More focused, better digestion, zero guilt. The Immunity Booster is my go-to before important meetings.",
+    text: "Replaced my expensive energy drinks with NaturoAmrit. More focused, better digestion, zero guilt. The Immunity Booster is my go-to before important meetings.",
     result: "Enhanced energy & focus",
     juiceUsed: "Immunity Booster",
   },
@@ -251,18 +278,20 @@ export const testimonials = [
 export const juiceCategories = [
   { id: "all", label: "All Juices", icon: "🎯" },
   { id: "liver", label: "Liver Support", icon: "🫀" },
-  { id: "heart", label: "Heart Health", icon: "❤️" },
-  { id: "sugar", label: "Blood Sugar", icon: "🌿" },
+  { id: "heart", label: "Heart Health", icon: "🫀" },
+  { id: "sugar", label: "Blood Sugar", icon: "🩸" },
   { id: "kidney", label: "Kidney Health", icon: "💧" },
   { id: "weight", label: "Weight Loss", icon: "🔥" },
   { id: "skin", label: "Skin & Glow", icon: "✨" },
   { id: "immunity", label: "Immunity", icon: "🛡️" },
+  { id: "all-in-one", label: "All-in-One", icon: "🧠" }
 ];
 
 export const navLinks = [
   { href: "/", label: "Home" },
   { href: "/juices", label: "Juices" },
   { href: "/plans", label: "Plans" },
+  { href: "/review", label: "Reviews" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+
 ];

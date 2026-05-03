@@ -14,7 +14,7 @@ export default function OrderSuccessPage() {
           </h1>
           
           <p className="text-lg text-stone-600 mb-3">
-            Thank you for choosing MediXpert
+            Thank you for choosing NaturoAmrit By KB Herbals
           </p>
           
           <p className="text-stone-600 mb-8">
@@ -53,7 +53,7 @@ export default function OrderSuccessPage() {
               <a href="tel:+919876543210" className="text-yellow-600 hover:text-yellow-700 font-medium">
                 📞 Call Us
               </a>
-              <a href="mailto:support@medixpert.com" className="text-yellow-600 hover:text-yellow-700 font-medium">
+              <a href="mailto:support@naturoamrit.com" className="text-yellow-600 hover:text-yellow-700 font-medium">
                 📧 Email
               </a>
               <a href="https://wa.me/919876543210" className="text-yellow-600 hover:text-yellow-700 font-medium">

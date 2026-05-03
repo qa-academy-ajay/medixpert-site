@@ -1,20 +1,28 @@
 "use client";
 
-import { useCart } from "@/app/context/CartContext";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { useCart } from "@/app/context/CartContext";
 
 export default function CartPage() {
-  const { cart, updateQuantity, removeFromCart, clearCart, getTotal } = useCart();
+
   const [isLoading, setIsLoading] = useState(false);
+  const {
+    cart,
+    updateQuantity,
+    removeFromCart,
+    clearCart,
+    getTotalPrice,
+  } = useCart();
 
   const handleCheckout = () => {
     if (cart.length === 0) return;
     setIsLoading(true);
-    // Navigate to checkout page
-    window.location.href = "/checkout";
+    // Navigate to review/summary page
+    window.location.href = "/checkout-summary";
   };
+
 
   if (cart.length === 0) {
     return (
@@ -34,13 +42,19 @@ export default function CartPage() {
             >
               Continue Shopping
             </Link>
+            {/* <button
+              onClick={openSubscriptionModal}
+              className="px-4 sm:px-6 py-2 rounded-lg bg-white text-emerald-900 font-bold hover:bg-emerald-50 transition-colors text-xs sm:text-sm active:scale-95 flex-1 sm:flex-none min-h-10"
+            >
+              Subscribe →
+            </button> */}
           </div>
         </div>
       </div>
     );
   }
 
-  const total = getTotal();
+  const total = getTotalPrice();
   const tax = Math.round(total * 0.05); // 5% tax
   const grandTotal = total + tax;
 
@@ -86,48 +100,50 @@ export default function CartPage() {
                     {item.volume && (
                       <p className="text-sm text-stone-500 mb-3">{item.volume}</p>
                     )}
-                    <p className="text-yellow-600 font-bold text-lg">₹{item.price}</p>
-                  </div>
-
-                  {/* Quantity and Actions */}
-                  <div className="flex flex-col items-end justify-between">
-                    <button
-                      onClick={() => removeFromCart(item.id)}
-                      className="text-red-500 hover:text-red-700 text-sm font-medium"
-                    >
-                      Remove
-                    </button>
-
-                    <div className="flex items-center border border-stone-300 rounded-lg bg-stone-50">
+                    <p className="text-yellow-600 font-bold text-lg">₹{item.price}</p>                 
+                   </div>
+                    {/* Quantity and Actions */}
+                    <div className="flex flex-col items-end justify-between">
                       <button
-                        onClick={() =>
-                          updateQuantity(item.id, Math.max(1, item.quantity - 1))
-                        }
-                        className="px-3 py-2 text-slate-600 hover:bg-stone-200 transition-colors"
+                        onClick={() => removeFromCart(item.id)}
+                        className="text-red-500 hover:text-red-700 text-sm font-medium"
                       >
-                        −
+                        Remove
                       </button>
-                      <span className="px-4 py-2 font-semibold text-slate-900">
-                        {item.quantity}
-                      </span>
-                      <button
-                        onClick={() =>
-                          updateQuantity(item.id, item.quantity + 1)
-                        }
-                        className="px-3 py-2 text-slate-600 hover:bg-stone-200 transition-colors"
-                      >
-                        +
-                      </button>
-                    </div>
 
-                    <div className="text-right">
-                      <p className="text-sm text-stone-500 mb-1">Subtotal</p>
-                      <p className="text-lg font-bold text-slate-900">
-                        ₹{item.price * item.quantity}
-                      </p>
+                      <div className="flex items-center border border-stone-300 rounded-lg bg-stone-50">
+                        <button
+                          onClick={() =>
+                            updateQuantity(item.id, Math.max(1, item.quantity - 1))
+                          }
+                          className="px-3 py-2 text-slate-600 hover:bg-stone-200 transition-colors"
+                        >
+                          −
+                        </button>
+                        <span className="px-4 py-2 font-semibold text-slate-900">
+                          {item.quantity}
+                        </span>
+                        <button
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity + 1)
+                          }
+                          className="px-3 py-2 text-slate-600 hover:bg-stone-200 transition-colors"
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      <div className="text-right">
+                        <p className="text-sm text-stone-500 mb-1">Subtotal</p>
+                        <p className="text-lg font-bold text-slate-900">
+                          ₹{item.price * item.quantity}
+
+                        </p>
+                      </div>
                     </div>
-                  </div>
                 </div>
+
+
               ))}
             </div>
 
@@ -170,7 +186,8 @@ export default function CartPage() {
                 disabled={isLoading || cart.length === 0}
                 className="w-full bg-yellow-500 text-slate-900 font-bold py-4 rounded-lg hover:bg-yellow-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? "Processing..." : "Proceed to Checkout"}
+                {"Proceed to Checkout"}
+
               </button>
 
               <Link

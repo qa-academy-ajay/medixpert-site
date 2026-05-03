@@ -1,15 +1,16 @@
 // context/CartContext.tsx
 "use client";
+
 import { createContext, useContext, useState, useEffect } from "react";
 
-// Define a type for cart items
+// ─── Types ────────────────────────────────────────────────────────────────────
 export type CartItem = {
-  id: string; // unique identifier for the product
+  id: string;
   name: string;
-  price: number; // numeric price
-  image?: string; // optional image path
-  quantity: number; // required quantity
-  volume?: string; // e.g., "200 ml"
+  price: number;
+  image?: string;
+  quantity: number;
+  volume?: string;
 };
 
 type CartContextType = {
@@ -19,45 +20,53 @@ type CartContextType = {
   removeFromCart: (id: string) => void;
   clearCart: () => void;
   getTotal: () => number;
+  getTotalItems: () => number;
+  getTotalPrice: () => number;
+  isHydrated: boolean; // ✅ important for SSR safety
 };
 
+// ─── Context ──────────────────────────────────────────────────────────────────
 const CartContext = createContext<CartContextType | undefined>(undefined);
-const CART_STORAGE_KEY = "medixpert-cart";
 
+const CART_STORAGE_KEY = "naturoamrit-cart";
+
+// ─── Provider ─────────────────────────────────────────────────────────────────
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isHydrated, setIsHydrated] = useState(false);
 
-  // Load from localStorage on mount
+  // Load cart from localStorage AFTER mount
   useEffect(() => {
-    const savedCart = localStorage.getItem(CART_STORAGE_KEY);
-    if (savedCart) {
-      try {
+    try {
+      const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+      if (savedCart) {
         setCart(JSON.parse(savedCart));
-      } catch (err) {
-        console.error("Failed to parse saved cart:", err);
       }
+    } catch (err) {
+      console.error("Failed to parse saved cart:", err);
+    } finally {
+      setIsHydrated(true);
     }
-    setIsHydrated(true);
   }, []);
 
-  // Save to localStorage whenever cart changes
+  // Save cart to localStorage
   useEffect(() => {
     if (isHydrated) {
       localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
     }
   }, [cart, isHydrated]);
 
+  // ─── Actions ────────────────────────────────────────────────────────────────
   const addToCart = (item: Omit<CartItem, "quantity">) => {
     setCart((prev) => {
-      const existingItem = prev.find((i) => i.id === item.id);
-      if (existingItem) {
-        // Increment quantity if item already exists
+      const existing = prev.find((i) => i.id === item.id);
+
+      if (existing) {
         return prev.map((i) =>
           i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
         );
       }
-      // Add new item with quantity 1
+
       return [...prev, { ...item, quantity: 1 }];
     });
   };
@@ -67,6 +76,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       removeFromCart(id);
       return;
     }
+
     setCart((prev) =>
       prev.map((i) => (i.id === id ? { ...i, quantity } : i))
     );
@@ -78,22 +88,40 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clearCart = () => setCart([]);
 
-  const getTotal = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
-  };
+  // ─── Selectors ──────────────────────────────────────────────────────────────
+  const getTotal = () =>
+    cart.reduce((total, item) => total + item.quantity * item.price, 0);
 
+  const getTotalItems = () =>
+    cart.reduce((total, item) => total + item.quantity, 0);
+
+  const getTotalPrice = () => getTotal();
+
+  // ─── Provider ───────────────────────────────────────────────────────────────
   return (
-    <CartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart, clearCart, getTotal }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        updateQuantity,
+        removeFromCart,
+        clearCart,
+        getTotal,
+        getTotalItems,
+        getTotalPrice,
+        isHydrated, // ✅ critical
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
 }
 
+// ─── Hook ─────────────────────────────────────────────────────────────────────
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
     throw new Error("useCart must be used within a CartProvider");
   }
   return context;
-}
-
+};

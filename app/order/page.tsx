@@ -33,7 +33,7 @@ export default function OrderPage() {
   const handleWhatsApp = () => {
     if (!form.name || !form.phone || !form.address) return;
 
-    const msg = `Hello MediXpert! 🌿
+    const msg = `Hello NaturoAmrit By KB Herbals! 🌿
 
 *New Order Request*
 ━━━━━━━━━━━━━━━━
