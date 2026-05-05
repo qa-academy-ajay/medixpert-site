@@ -15,7 +15,7 @@ import { NextResponse } from "next/server";
 import { google } from "googleapis";
 
 // Load credentials from environment variables
-const SHEET_ID = process.env.GOOGLE_SHEET_ID as string;
+const SHEET_ID = process.env.GOOGLE_SHEET_ID_SUBSCRIPTIONS as string;
 const CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL as string;
 const PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n") as string;
 
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
 console.log(CLIENT_EMAIL?.slice(0, 40));
 
   const data = await request.json();
-  const { name, phone, address, message, juices, plan } = data;
+  const { name, email, phone, address, city, state, pincode, message, plan } = data;
 
   try {
     const auth = new google.auth.JWT({
@@ -37,10 +37,10 @@ console.log(CLIENT_EMAIL?.slice(0, 40));
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: SHEET_ID,
-      range: "Sheet1!A:F",
+      range: "Sheet1!A:J",
       valueInputOption: "USER_ENTERED",
       requestBody: {
-        values: [[name, phone, address, message || "", plan, new Date().toLocaleString()]],
+        values: [[name, email, phone, address, city, state, pincode, plan, message || "", new Date().toLocaleString()]],
       },
     });
 

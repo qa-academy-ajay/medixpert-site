@@ -10,6 +10,7 @@ type SubscriptionCheckoutModalProps = {
   onClose: () => void;
   selectedCart: Record<string, number>;
   onClearCart?: () => void;
+  initialPlan?: string;
 };
 
 type Step = "plan" | "details" | "review";
@@ -19,9 +20,10 @@ export default function SubscriptionCheckoutModal({
   onClose,
   selectedCart,
   onClearCart,
+  initialPlan,
 }: SubscriptionCheckoutModalProps) {
   const [step, setStep] = useState<Step>("plan");
-  const [selectedPlan, setSelectedPlan] = useState<string>("wellness");
+  const [selectedPlan, setSelectedPlan] = useState<string>(initialPlan || "wellness");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -33,6 +35,14 @@ export default function SubscriptionCheckoutModal({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  // Reset form when modal opens with new initial plan
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedPlan(initialPlan || "wellness");
+      setStep("plan");
+    }
+  }, [isOpen, initialPlan]);
 
   // Extract juice details with quantities from cart
   const selectedJuiceIds = Object.keys(selectedCart || {});
@@ -140,7 +150,7 @@ export default function SubscriptionCheckoutModal({
 
   const resetForm = () => {
     setStep("plan");
-    setSelectedPlan("wellness");
+    setSelectedPlan(initialPlan || "wellness");
     setName("");
     setEmail("");
     setPhone("");

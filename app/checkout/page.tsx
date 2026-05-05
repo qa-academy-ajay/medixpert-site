@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
-  const { cart, getTotalPrice, getTotalItems, clearCart } = useCart();
+  const { cart, getTotalPrice, clearCart } = useCart();
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -93,15 +93,37 @@ export default function CheckoutPage() {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const total = getTotalPrice();
+      const tax = Math.round(total * 0.05);
+      const grandTotal = total + tax;
 
-      // Log order details (in a real app, this would be sent to backend)
-      console.log("Order placed:", {
-        items: cart,
-        customerInfo: formData,
-        total: getTotalPrice(),
+      // Send order to API
+      const response = await fetch("/api/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: formData.fullName.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone.trim(),
+          address: formData.address.trim(),
+          city: formData.city.trim(),
+          state: formData.state.trim(),
+          pincode: formData.pincode.trim(),
+          items: cart,
+          totalPrice: total,
+          tax: tax,
+          grandTotal: grandTotal,
+          paymentMethod: formData.paymentMethod,
+        }),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to place order");
+      }
+
+      const result = await response.json();
+      console.log("Order placed:", result);
 
       setOrderPlaced(true);
 
@@ -114,7 +136,9 @@ export default function CheckoutPage() {
       }, 3000);
     } catch (error) {
       console.error("Error placing order:", error);
-      alert("Failed to place order. Please try again.");
+      setErrors({
+        submit: error instanceof Error ? error.message : "Failed to place order. Please try again.",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -155,6 +179,12 @@ export default function CheckoutPage() {
           {/* Checkout Form */}
           <div className="lg:col-span-2">
             <form onSubmit={handlePlaceOrder} className="space-y-8">
+              {errors.submit && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm font-medium">
+                  {errors.submit}
+                </div>
+              )}
+
               {/* Delivery Information */}
               <div className="bg-white rounded-xl border border-stone-200 p-8">
                 <h2 className="text-xl font-bold text-slate-900 mb-6">
